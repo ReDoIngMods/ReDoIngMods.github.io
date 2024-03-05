@@ -1,4 +1,5 @@
 let isThemeLight = localStorage.getItem('theme');
+console.log(isThemeLight);
 updateTheme(isThemeLight);
 
 function switchTheme(){
