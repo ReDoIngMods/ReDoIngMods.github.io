@@ -1,4 +1,4 @@
-var currTheme = localStorage.getItem('theme');
+let currTheme = localStorage.getItem('theme');
 updateTheme(currTheme);
 
 function switchTheme(){
