@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="ReDoIng Mods - A Scrap Mechanic Modding Group">
+    <meta name="keywords" content="Scrap Mechanic, mods, modding, ReDoIng Mods">
+    <meta name="author" content="ReDoIng Mods">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ReDoIngMods.github.io/">
+    <meta property="og:title" content="ReDoIng Mods">
+    <meta property="og:description" content="A Scrap Mechanic Modding Group">
+    <meta property="og:image" content="">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ReDoIngMods.github.io/">
+    <meta property="twitter:title" content="ReDoIng Mods">
+    <meta property="twitter:description" content="A Scrap Mechanic Modding Group">
+    <meta property="twitter:image" content="">
+
+    <title>ReDoIng Mods - Scrap Mechanic Modding Group</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @font-face {
+            font-family: 'Soviet Box';
+            src: url('https://cdn.jsdelivr.net/gh/ReDoIngMods/ReDoIngMods.github.io/Resources/Fonts/SovjetBoxBd_v0_9.otf') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --sm-bg-color: #1e5270;
+            --sm-yellow: #ffd700;
+            --sm-grid-line: rgba(52, 103, 132, 0.8);
+            --sm-ui-color: #2e3539;
+            --sm-grid-line-light: rgba(52, 103, 132, 0.4);
+            --sm-border-color: rgba(0, 0, 0, 0.2);
+            --sm-button-gradient-start: #ffba10;
+            --sm-button-gradient-end: #ff8200;
+            --sm-text-black: #000;
+            --sm-text-white: #fff;
+            --sm-mask-black: rgba(0, 0, 0, 1);
+            --sm-mask-transparent: rgba(0, 0, 0, 0);
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background-color: var(--sm-ui-color);
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--sm-ui-color);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Soviet Box', sans-serif;
+            letter-spacing: 0.02em;
+        }
+
+        .site-title {
+            font-family: 'Soviet Box', sans-serif;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--sm-ui-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--sm-yellow);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--sm-button-gradient-end);
+        }
+
+        /* Firefox scrollbar */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--sm-yellow) var(--sm-ui-color);
+        }
+
+        .blueprint-bg {
+            background-color: var(--sm-bg-color);
+            position: relative;
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            margin: 0;
+        }
+
+        .blueprint-bg::before {
+            content: '';
+            position: fixed;
+            width: 500%;
+            height: 500%;
+            top: -200%;
+            left: -200%;
+            transform: rotateX(25deg);
+            transform-origin: center center;
+            background-image: 
+                repeating-linear-gradient(90deg, var(--sm-grid-line) 0px, var(--sm-grid-line) 1px, transparent 1px, transparent 40px),
+                repeating-linear-gradient(0deg, var(--sm-grid-line) 0px, var(--sm-grid-line) 1px, transparent 1px, transparent 40px),
+                repeating-linear-gradient(90deg, var(--sm-grid-line-light) 0px, var(--sm-grid-line-light) 0.5px, transparent 0.5px, transparent 8px),
+                repeating-linear-gradient(0deg, var(--sm-grid-line-light) 0px, var(--sm-grid-line-light) 0.5px, transparent 0.5px, transparent 8px);
+            background-size: 40px 40px;
+            animation: moveGrid 20s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes moveGrid {
+            0% {
+                transform: rotateX(25deg) translate(0, 0);
+            }
+            100% {
+                transform: rotateX(25deg) translate(-40px, -40px);
+            }
+        }
+
+        .sm-container {
+            background: var(--sm-ui-color);
+            position: relative;
+            margin: 1rem;
+            border-radius: 0 24px 0 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .sm-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--sm-yellow) 0,
+                var(--sm-yellow) 2px,
+                transparent 2px,
+                transparent 8px
+            );
+            opacity: 0.15;
+            mask-image: linear-gradient(to bottom, var(--sm-mask-black) 0%, var(--sm-mask-transparent) 35%);
+            -webkit-mask-image: linear-gradient(to bottom, var(--sm-mask-black) 0%, var(--sm-mask-transparent) 35%);
+            pointer-events: none;
+            border-radius: 0 24px 0 24px;
+        }
+
+        .sm-button {
+            background: linear-gradient(to bottom, var(--sm-button-gradient-start) 0%, var(--sm-button-gradient-end) 100%);
+            color: var(--sm-text-black);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-weight: bold;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            margin: 0 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 180px;
+            position: relative;
+            clip-path: polygon(
+                0 0, 100% 0,
+                100% 30%, calc(100% - 4px) 30%, calc(100% - 4px) 37%, 100% 37%,
+                100% 45%, calc(100% - 4px) 45%, calc(100% - 4px) 52%, 100% 52%,
+                100% 60%, calc(100% - 4px) 60%, calc(100% - 4px) 67%, 100% 67%,
+                100% 100%, 0 100%,
+                0 67%, 4px 67%, 4px 60%, 0 60%,
+                0 52%, 4px 52%, 4px 45%, 0 45%,
+                0 37%, 4px 37%, 4px 30%, 0 30%
+            );
+        }
+
+        .sm-button span {
+            position: relative;
+            z-index: 1;
+            display: block;
+            text-align: center;
+            width: 100%;
+        }
+
+        .sm-button::before {
+            content: '';
+            position: absolute;
+            inset: 6px;
+            border: 2px solid rgba(0,0,0,0.2);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .sm-button:hover {
+            background: linear-gradient(to bottom, #fdf895 0%, #dd9931 100%);
+        }
+
+        .sm-header {
+            background: var(--sm-ui-color);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
+        }
+
+        .sm-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--sm-yellow) 0,
+                var(--sm-yellow) 2px,
+                transparent 2px,
+                transparent 8px
+            );
+            opacity: 0.2;
+            mask-image: linear-gradient(to bottom, var(--sm-mask-black) 0%, var(--sm-mask-transparent) 35%);
+            -webkit-mask-image: linear-gradient(to bottom, var(--sm-mask-black) 0%, var(--sm-mask-transparent) 35%);
+            pointer-events: none;
+        }
+
+        .sm-nav {
+            background: var(--sm-ui-color);
+            position: relative;
+        }
+
+        .sm-nav-link {
+            color: var(--sm-text-white);
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: all 0.2s;
+        }
+
+        footer.sm-header {
+            padding-bottom: env(safe-area-inset-bottom);
+            margin-top: auto;
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+
+        @supports(padding: max(0px)) {
+            .sm-header {
+                padding-top: max(env(safe-area-inset-top), 20px);
+                padding-left: max(env(safe-area-inset-left), 16px);
+                padding-right: max(env(safe-area-inset-right), 16px);
+            }
+            
+            footer.sm-header {
+                padding-bottom: max(env(safe-area-inset-bottom), 20px);
+                padding-left: max(env(safe-area-inset-left), 16px);
+                padding-right: max(env(safe-area-inset-right), 16px);
+            }
+        }
+    </style>
+</head>
+<body class="blueprint-bg min-h-screen flex flex-col">
+    <header class="sm-header p-6 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col items-center">
+                <h1 class="text-4xl md:text-5xl site-title text-white mb-2 tracking-tight">
+                    ReDoIng Mods
+                </h1>
+                <p class="text-lg md:text-xl text-white/90 font-light tracking-wide">
+                    Scrap Mechanic Modding Group
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="sm-nav py-4 relative z-10">
+        <div class="container mx-auto px-4">
+            <ul class="flex flex-wrap justify-center space-x-8 md:space-x-12">
+                <li><a href="#home" class="sm-nav-link">Home</a></li>
+                <li><a href="#mods" class="sm-nav-link">Our Mods</a></li>
+                <li><a href="#about" class="sm-nav-link">About Us</a></li>
+                <li><a href="#contact" class="sm-nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto px-4 py-8 relative z-10">
+        <section class="sm-container p-8 mb-8 text-center">
+            <h1 class="text-4xl font-bold text-white mb-4">Welcome to ReDoIng Mods</h1>
+            <p class="text-xl text-white/90 max-w-3xl mx-auto">
+                We create amazing mods for Scrap Mechanic to enhance your gaming experience. Our team is dedicated to bringing new features and improvements to the game.
+            </p>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="sm-container p-6">
+                <h2 class="text-2xl font-bold text-white mb-4">Quality Mods</h2>
+                <p class="text-white/90">
+                    We create high-quality mods that are thoroughly tested and optimized for the best performance.
+                </p>
+            </div>
+            <div class="sm-container p-6">
+                <h2 class="text-2xl font-bold text-white mb-4">Community Driven</h2>
+                <p class="text-white/90">
+                    Our mods are created with the community in mind, taking feedback and suggestions to heart.
+                </p>
+            </div>
+            <div class="sm-container p-6">
+                <h2 class="text-2xl font-bold text-white mb-4">Regular Updates</h2>
+                <p class="text-white/90">
+                    We maintain and update our mods regularly to ensure compatibility with the latest game versions.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="sm-header py-8 mt-auto relative z-10">
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-6 text-white/90">&copy; 2025 ReDoIng Mods. All rights reserved.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#" class="sm-button" target="_blank"><span>Discord</span></a>
+                <a href="#" class="sm-button" target="_blank"><span>Github</span></a>
+                <a href="#" class="sm-button" target="_blank"><span>Steam Workshop</span></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
