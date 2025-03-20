@@ -1,0 +1,382 @@
+@font-face {
+    font-family: 'Shentox_SemiBold';
+    src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/main/Resources/fonts/Shentox_SemiBold.otf');
+}
+
+@font-face {
+    font-family: 'Shentox_Bold';
+    src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/main/Resources/fonts/Shentox_Bold.otf');
+}
+
+@font-face {
+    font-family: 'Shentox_Medium';
+    src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/main/Resources/fonts/Shentox_Medium.otf');
+}
+
+@font-face {
+    font-family: 'Shentox_Regular';
+    src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/main/Resources/fonts/Shentox_Regular.otf');
+}
+
+@font-face {
+    font-family: 'Inter_Medium';
+    src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/main/Resources/fonts/Inter_Medium.otf');
+}
+
+@font-face {
+    font-family: 'NotoSans-Medium';
+    src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/main/Resources/fonts/NotoSans-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'SMDigital';
+    src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/main/Resources/fonts/SMDigital.otf');
+}
+
+@font-face {
+    font-family: 'GRUPO3';
+    src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/main/Resources/fonts/GRUPO3.otf');
+}
+
+@font-face {
+    font-family: 'Futura';
+    src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/main/Resources/fonts/Futura.otf');
+}
+
+@font-face {
+    font-family: 'Futura-Oblique';
+    src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/main/Resources/fonts/Futura-Oblique.otf');
+}
+
+@font-face {
+    font-family: 'Futura-Bold';
+    src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/main/Resources/fonts/Futura-Bold.otf');
+}
+
+@font-face {
+    font-family: 'SovjetBoxBd_v0_9';
+    src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/main/Resources/fonts/SovjetBoxBd_v0_9.otf');
+}
+
+/* Define font styles for each widget type */
+.SM_HeaderXLarge_Wide {
+    font-family: 'Shentox_SemiBold';
+    font-size: 24px;
+    letter-spacing: 1.33333333px;
+}
+
+.SM_HeaderLarge_Wide {
+    font-family: 'Shentox_SemiBold';
+    font-size: 16px;
+    letter-spacing: 6.6666667px;
+}
+
+.SM_HeaderLarge_Medium {
+    font-family: 'Shentox_SemiBold';
+    font-size: 16px;
+    letter-spacing: 2.6666667px;
+}
+
+.SM_HeaderLarge_Narrow {
+    font-family: 'Shentox_SemiBold';
+    font-size: 16px;
+    letter-spacing: 0.6666667px;
+}
+
+.SM_HeaderMedium {
+    font-family: 'Shentox_Bold';
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.SM_SubHeader {
+    font-family: 'Shentox_SemiBold';
+    font-size: 10px;
+    letter-spacing: 3px;
+}
+
+.SM_Header {
+    font-family: 'Shentox_SemiBold';
+    font-size: 9px;
+    letter-spacing: 1.33333333px;
+}
+
+.SM_HeaderSmall {
+    font-family: 'Shentox_SemiBold';
+    font-size: 8px;
+    letter-spacing: 1.33333333px;
+}
+
+.SM_HeaderTiny {
+    font-family: 'Shentox_SemiBold';
+    font-size: 7px;
+    letter-spacing: 0.66666667px;
+}
+
+.SM_Tab {
+    font-family: 'Shentox_Medium';
+    font-size: 9px;
+    letter-spacing: 1.33333333px;
+}
+
+.SM_TabSmall {
+    font-family: 'Shentox_Medium';
+    font-size: 8px;
+    letter-spacing: 0.66666667px;
+}
+
+.SM_TextLabel {
+    font-family: 'Shentox_Medium';
+    font-size: 9px;
+}
+
+.SM_Label {
+    font-family: 'Shentox_Medium';
+    font-size: 9px;
+    letter-spacing: 0.66666667px;
+}
+
+.SM_LabelSmall {
+    font-family: 'Shentox_Medium';
+    font-size: 8px;
+    letter-spacing: 0.66666667px;
+}
+
+.SM_LabelTiny {
+    font-family: 'Shentox_Medium';
+    font-size: 7px;
+    letter-spacing: 0.66666667px;
+}
+
+.SM_LabelMini {
+    font-family: 'Shentox_Medium';
+    font-size: 6px;
+    letter-spacing: 0.66666667px;
+}
+
+.SM_SliderLabel {
+    font-family: 'Shentox_Medium';
+    font-size: 5px;
+    letter-spacing: 0.66666667px;
+}
+
+.SM_SearchText {
+    font-family: 'Shentox_Regular';
+    font-size: 10px;
+}
+
+.SM_ToolTipText {
+    font-family: 'Shentox_Medium';
+    font-size: 8px;
+}
+
+.SM_TextLarge {
+    font-family: 'Inter_Medium';
+    font-size: 12px;
+}
+
+.SM_Text {
+    font-family: 'Inter_Medium';
+    font-size: 10px;
+}
+
+.SM_TextDesc {
+    font-family: 'Shentox_Medium';
+    font-size: 12px;
+}
+
+.SM_TextSmall {
+    font-family: 'Inter_Medium';
+    font-size: 8px;
+}
+
+.SM_TextTiny {
+    font-family: 'Inter_Medium';
+    font-size: 7px;
+}
+
+.SM_ItemTitle {
+    font-family: 'Shentox_SemiBold';
+    font-size: 11px;
+    letter-spacing: 0.66666667px;
+}
+
+.SM_GameName {
+    font-family: 'Shentox_SemiBold';
+    font-size: 11px;
+    letter-spacing: 0.66666667px;
+}
+
+.SM_ButtonLarge {
+    font-family: 'Shentox_SemiBold';
+    font-size: 13px;
+}
+
+.SM_Button {
+    font-family: 'Shentox_SemiBold';
+    font-size: 10px;
+    letter-spacing: 0.66666667px;
+}
+
+.SM_ButtonSmall {
+    font-family: 'Shentox_SemiBold';
+    font-size: 8px;
+}
+
+.SM_ButtonTiny {
+    font-family: 'Shentox_SemiBold';
+    font-size: 7px;
+    letter-spacing: 0.66666667px;
+}
+
+.SM_ButtonSmallBold {
+    font-family: 'Shentox_Bold';
+    font-size: 8px;
+}
+
+.SM_NumberHuge {
+    font-family: 'Shentox_Regular';
+    font-size: 21px;
+}
+
+.SM_NumberSmall {
+    font-family: 'Shentox_SemiBold';
+    font-size: 8px;
+}
+
+.SM_NumberTiny {
+    font-family: 'Shentox_SemiBold';
+    font-size: 7px;
+}
+
+.SM_NumberMini {
+    font-family: 'Shentox_SemiBold';
+    font-size: 6px;
+}
+
+.SM_UserName {
+    font-family: 'Shentox_Regular';
+    font-size: 8px;
+}
+
+.SM_ListItem {
+    font-family: 'Shentox_SemiBold';
+    font-size: 9px;
+}
+
+.SM_HotbarBinding {
+    font-family: 'Shentox_Medium';
+    font-size: 6.5px;
+}
+
+.SM_IntlText {
+    font-family: 'NotoSans-Medium';
+    font-size: 18px;
+}
+
+.SM_Digital {
+    font-family: 'SMDigital';
+    font-size: 18px;
+}
+
+.X_Interactable_Timer_TimeUnit {
+    font-family: 'Shentox_Regular';
+    font-size: 15px;
+}
+
+.X_Interactable_Timer_TickCount {
+    font-family: 'Shentox_Medium';
+    font-size: 11px;
+}
+
+.X_Interactable_LogicGate_Category {
+    font-family: 'Shentox_SemiBold';
+    font-size: 11px;
+}
+
+.X_MenuGamemodeMenu_GameMode {
+    font-family: 'Shentox_Bold';
+    font-size: 25px;
+    letter-spacing: 3.33333333px;
+}
+
+.X_Hud_Alert {
+    font-family: 'Shentox_SemiBold';
+    font-size: 12px;
+    letter-spacing: 0.66666667px;
+}
+
+.X_Hud_Interaction {
+    font-family: 'Shentox_SemiBold';
+    font-size: 10px;
+}
+
+.X_Hud_PlayerName {
+    font-family: 'Shentox_SemiBold';
+    font-size: 11px;
+}
+
+.X_Hud_ItemStack {
+    font-family: 'Shentox_SemiBold';
+    font-size: 11px;
+}
+
+.HandbookTitle {
+    font-family: 'GRUPO3';
+    font-size: 45.333333px;
+}
+
+.HandbookSubTitle {
+    font-family: 'Futura';
+    font-size: 12px;
+}
+
+.HandbookSubTitleItalic {
+    font-family: 'Futura-Oblique';
+    font-size: 12px;
+}
+
+.HandbookPageCount {
+    font-family: 'Futura';
+    font-size: 16px;
+}
+
+.HandbookDescriptionLarge {
+    font-family: 'Futura';
+    font-size: 9.333333px;
+}
+
+.HandbookDescriptionSmall {
+    font-family: 'Futura';
+    font-size: 8px;
+}
+
+.HandbookInstructionLarge {
+    font-family: 'SovjetBoxBd_v0_9';
+    font-size: 16.666667px;
+}
+
+.HandbookInstructionMedium {
+    font-family: 'SovjetBoxBd_v0_9';
+    font-size: 11.333333px;
+}
+
+.HandbookInstructionSmall {
+    font-family: 'SovjetBoxBd_v0_9';
+    font-size: 10px;
+}
+
+.HandbookLogicDescription {
+    font-family: 'Futura';
+    font-size: 5.333333px;
+}
+
+.HandbookFAQQuestion {
+    font-family: 'Futura-Bold';
+    font-size: 10.666667px;
+}
+
+.HandbookFAQAnswer {
+    font-family: 'Futura';
+    font-size: 12px;
+}

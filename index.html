@@ -32,11 +32,42 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="fonts.css">
     <style>
         @font-face {
             font-family: 'Sovjet Box';
             src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/refs/heads/main/Resources/fonts/SovjetBoxBd_v0_9.otf') format('opentype');
             font-weight: bold;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Inter Medium';
+            src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/refs/heads/main/Resources/fonts/Inter_Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Shentox Regular';
+            src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/refs/heads/main/Resources/fonts/Shentox_Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Shentox Medium';
+            src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/refs/heads/main/Resources/fonts/Shentox_Medium.ttf') format('truetype');
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Shentox SemiBold';
+            src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/refs/heads/main/Resources/fonts/Shentox_Bold.ttf') format('truetype');
             font-style: normal;
             font-display: swap;
         }
@@ -495,10 +526,10 @@
         <header class="sm-header p-6 relative z-10">
             <div class="container mx-auto px-4">
                 <div class="flex flex-col items-center">
-                    <h1 class="text-4xl md:text-5xl site-title text-white mb-2 tracking-tight">
+                    <h1 class="text-4xl md:text-5xl site-title text-white mb-2 tracking-tight X_MenuGamemodeMenu_GameMode">
                         ReDoIng Mods
                     </h1>
-                    <p class="text-lg md:text-xl text-white/90 font-light tracking-wide">
+                    <p class="text-lg md:text-xl text-white/90 font-light tracking-wide SM_TextDesc">
                         Scrap Mechanic Modding Group
                     </p>
                 </div>
@@ -508,18 +539,18 @@
         <nav class="sm-nav py-4 relative z-10">
             <div class="container mx-auto px-4">
                 <ul class="flex flex-wrap justify-center space-x-8 md:space-x-12">
-                    <li><a href="#home" class="sm-nav-link">Home</a></li>
-                    <li><a href="#mods" class="sm-nav-link">Our Mods</a></li>
-                    <li><a href="#about" class="sm-nav-link">About Us</a></li>
-                    <li><a href="#contact" class="sm-nav-link">Contact</a></li>
+                    <li><a href="#home" class="sm-nav-link SM_Tab">Home</a></li>
+                    <li><a href="#mods" class="sm-nav-link SM_Tab">Our Mods</a></li>
+                    <li><a href="#about" class="sm-nav-link SM_Tab">About Us</a></li>
+                    <li><a href="#contact" class="sm-nav-link SM_Tab">Contact</a></li>
                 </ul>
             </div>
         </nav>
 
         <main class="flex-grow container mx-auto px-4 py-8 relative z-10 max-w-[1800px]">
             <section class="sm-container p-8 mb-8 text-center">
-                <h1 class="text-4xl font-bold text-white mb-4 site-title">Welcome to ReDoIng Mods</h1>
-                <p class="text-xl text-white/90 max-w-3xl mx-auto">
+                <h1 class="text-4xl font-bold text-white mb-4 site-title SM_HeaderXLarge_Wide">Welcome to ReDoIng Mods</h1>
+                <p class="text-xl text-white/90 max-w-3xl mx-auto SM_TextLarge">
                     We create amazing mods for Scrap Mechanic to enhance your gaming experience. Our team is dedicated to bringing new features and improvements to the game.
                 </p>
             </section>
@@ -529,8 +560,8 @@
                     <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
                         <img src="https://github.com/ReDoIngMods/ReDoIngMods.github.io/blob/main/Resources/img/Fuel1k.png?raw=true" alt="Gas Engine" class="card-image">
                         <div class="card-content">
-                            <h2 class="text-2xl text-white mb-4 site-title">Community</h2>
-                            <p class="text-white/90 mb-4">Join our vibrant community of modders and players, fueled by passionate people. Share your creations, get help, and collaborate with others.</p>
+                            <h2 class="text-2xl text-white mb-4 site-title SM_HeaderLarge_Medium">Community</h2>
+                            <p class="text-white/90 mb-4 SM_Text">Join our vibrant community of modders and players, fueled by passionate people. Share your creations, get help, and collaborate with others.</p>
                         </div>
                     </div>
                 </div>
@@ -539,8 +570,8 @@
                     <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
                         <img src="https://github.com/ReDoIngMods/ReDoIngMods.github.io/blob/main/Resources/img/Cookbot1k.png?raw=true" alt="Cookbot" class="card-image cookbot">
                         <div class="card-content">
-                            <h2 class="text-2xl text-white mb-4 site-title">Mods</h2>
-                            <p class="text-white/90 mb-4">Explore our collection of delicious high-quality mods designed to enhance your Scrap Mechanic experience.</p>
+                            <h2 class="text-2xl text-white mb-4 site-title SM_HeaderLarge_Medium">Mods</h2>
+                            <p class="text-white/90 mb-4 SM_Text">Explore our collection of delicious high-quality mods designed to enhance your Scrap Mechanic experience.</p>
                         </div>
                     </div>
                 </div>
@@ -549,8 +580,8 @@
                     <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
                         <img src="https://github.com/ReDoIngMods/ReDoIngMods.github.io/blob/main/Resources/img/Tutorial1k.png?raw=true" alt="Tutorial" class="card-image">
                         <div class="card-content">
-                            <h2 class="text-2xl text-white mb-4 site-title">Resources</h2>
-                            <p class="text-white/90 mb-4">Access tutorials, documentation, and tools to help you create your own amazing mods.</p>
+                            <h2 class="text-2xl text-white mb-4 site-title SM_HeaderLarge_Medium">Resources</h2>
+                            <p class="text-white/90 mb-4 SM_Text">Access tutorials, documentation, and tools to help you create your own amazing mods.</p>
                         </div>
                     </div>
                 </div>
@@ -559,11 +590,11 @@
 
         <footer class="sm-header py-8 mt-auto relative z-10">
             <div class="container mx-auto px-4 text-center">
-                <p class="mb-6 text-white/90">&copy; 2025 ReDoIng Mods. All rights reserved.</p>
+                <p class="mb-6 text-white/90 SM_TextSmall">&copy; 2025 ReDoIng Mods. All rights reserved.</p>
                 <div class="flex flex-wrap justify-center gap-4">
-                    <a href="https://discord.gg/DyUxeyAJRz" class="sm-button" target="_blank"><span>Discord</span></a>
-                    <a href="https://github.com/ReDoIngMods" class="sm-button" target="_blank"><span>Github</span></a>
-                    <a href="#" class="sm-button disabled" onclick="showModal()"><span>Steam Workshop</span></a>
+                    <a href="https://discord.gg/DyUxeyAJRz" class="sm-button SM_Button" target="_blank"><span>Discord</span></a>
+                    <a href="https://github.com/ReDoIngMods" class="sm-button SM_Button" target="_blank"><span>Github</span></a>
+                    <a href="#" class="sm-button disabled SM_Button" onclick="showModal()"><span>Steam Workshop</span></a>
                 </div>
             </div>
         </footer>
@@ -573,12 +604,12 @@
     <div id="workshopModal" class="modal">
         <div class="modal-content">
             <!-- This one, we don't want all caps -->
-            <h3 class="site-title capitalize">
+            <h3 class="site-title capitalize SM_HeaderLarge_Narrow">
                 <div class="warning-diamond"></div>
                 Hey!
             </h3>
-            <p>Our Steam Workshop collection is currently under development. Check back later for our mods!</p>
-            <div class="modal-close" onclick="hideModal()"><span>OK</span></div>
+            <p class="SM_Text">Our Steam Workshop collection is currently under development. Check back later for our mods!</p>
+            <div class="modal-close SM_ButtonSmall" onclick="hideModal()"><span>OK</span></div>
         </div>
     </div>
 
