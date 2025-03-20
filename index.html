@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, viewport-fit=cover">
     <meta name="description" content="ReDoIng Mods - A Scrap Mechanic Modding Group">
     <meta name="keywords" content="Scrap Mechanic, mods, modding, ReDoIng Mods">
     <meta name="author" content="ReDoIng Mods">
@@ -29,14 +29,13 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @font-face {
-            font-family: 'Soviet Box';
-            src: url('https://cdn.jsdelivr.net/gh/ReDoIngMods/ReDoIngMods.github.io/Resources/Fonts/SovjetBoxBd_v0_9.otf') format('opentype');
+            font-family: 'Sovjet Box';
+            src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/refs/heads/main/Resources/fonts/SovjetBoxBd_v0_9.otf') format('opentype');
             font-weight: bold;
             font-style: normal;
             font-display: swap;
@@ -53,12 +52,12 @@
             --sm-button-gradient-end: #ff8200;
             --sm-text-black: #000;
             --sm-text-white: #fff;
+            --sm-text-gray: #aaa;
             --sm-mask-black: rgba(0, 0, 0, 1);
             --sm-mask-transparent: rgba(0, 0, 0, 0);
         }
 
         body {
-            font-family: 'Lato', sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -76,12 +75,12 @@
         }
 
         h1, h2, h3, h4, h5, h6 {
-            font-family: 'Soviet Box', sans-serif;
+            font-family: 'Sovjet Box', sans-serif;
             letter-spacing: 0.02em;
         }
 
         .site-title {
-            font-family: 'Soviet Box', sans-serif;
+            font-family: 'Sovjet Box', sans-serif;
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
@@ -152,11 +151,43 @@
 
         .sm-container {
             background: var(--sm-ui-color);
+            border-radius: 12px;
             position: relative;
-            margin: 1rem;
-            border-radius: 0 24px 0 24px;
-            overflow: hidden;
+            overflow: visible;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            margin-top: 50px;
+            min-height: 160px;
+        }
+
+        .card-image {
+            position: absolute;
+            left: -80px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 160px;
+            width: auto;
+            opacity: 0.9;
+            pointer-events: none;
+            object-fit: contain;
+            filter: drop-shadow(5px 8px 12px rgba(0, 0, 0, 0.5));
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .card-image.cookbot {
+            height: 200px;
+            left: -100px;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+            padding: 16px;
+            padding-left: 100px;
+            flex: 1;
+            text-align: left;
         }
 
         .sm-container::before {
@@ -176,8 +207,29 @@
             opacity: 0.15;
             mask-image: linear-gradient(to bottom, var(--sm-mask-black) 0%, var(--sm-mask-transparent) 35%);
             -webkit-mask-image: linear-gradient(to bottom, var(--sm-mask-black) 0%, var(--sm-mask-transparent) 35%);
-            pointer-events: none;
-            border-radius: 0 24px 0 24px;
+            border-radius: 12px;
+            clip-path: polygon(
+                0 0, 100% 0,
+                100% 30%, calc(100% - 4px) 30%, calc(100% - 4px) 37%, 100% 37%,
+                100% 45%, calc(100% - 4px) 45%, calc(100% - 4px) 52%, 100% 52%,
+                100% 60%, calc(100% - 4px) 60%, calc(100% - 4px) 67%, 100% 67%,
+                100% 100%, 0 100%,
+                0 67%, 4px 67%, 4px 60%, 0 60%,
+                0 52%, 4px 52%, 4px 45%, 0 45%,
+                0 37%, 4px 37%, 4px 30%, 0 30%
+            );
+        }
+
+        .sm-container:hover .card-image {
+            transform: translateY(-50%) translateY(-5px);
+        }
+
+        .sm-container:hover .card-image.cookbot {
+            transform: translateY(-50%) translateY(-5px);
+        }
+
+        .sm-container:hover .card-image.cookbot:last-child {
+            transform: translateY(-50%) translateY(-5px);
         }
 
         .sm-button {
@@ -196,6 +248,7 @@
             justify-content: center;
             min-width: 180px;
             position: relative;
+            cursor: pointer;
             clip-path: polygon(
                 0 0, 100% 0,
                 100% 30%, calc(100% - 4px) 30%, calc(100% - 4px) 37%, 100% 37%,
@@ -206,6 +259,16 @@
                 0 52%, 4px 52%, 4px 45%, 0 45%,
                 0 37%, 4px 37%, 4px 30%, 0 30%
             );
+        }
+
+        .sm-button.disabled {
+            background: linear-gradient(to bottom, #4a4a4a 0%, #2a2a2a 100%);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .sm-button.disabled:hover {
+            background: linear-gradient(to bottom, #4a4a4a 0%, #2a2a2a 100%);
         }
 
         .sm-button span {
@@ -228,6 +291,8 @@
         .sm-button:hover {
             background: linear-gradient(to bottom, #fdf895 0%, #dd9931 100%);
         }
+
+        .sm-button-standard {}
 
         .sm-header {
             background: var(--sm-ui-color);
@@ -290,72 +355,249 @@
                 padding-right: max(env(safe-area-inset-right), 16px);
             }
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--sm-ui-color);
+            padding: 3rem 2rem 2rem;
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+            position: relative;
+            border-radius: 0 24px 0 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--sm-yellow) 0,
+                var(--sm-yellow) 2px,
+                transparent 2px,
+                transparent 8px
+            );
+            opacity: 0.15;
+            mask-image: linear-gradient(to bottom, var(--sm-mask-black) 0%, var(--sm-mask-transparent) 35%);
+            -webkit-mask-image: linear-gradient(to bottom, var(--sm-mask-black) 0%, var(--sm-mask-transparent) 35%);
+            border-radius: 0 24px 0 24px;
+            z-index: 0;
+        }
+
+        .modal-content::after {
+            content: '';
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 64px;
+            height: 64px;
+            background-image: url('resources/img/Hammer1k.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            filter: brightness(0) saturate(100%) invert(79%) sepia(83%) saturate(895%) hue-rotate(359deg) brightness(103%) contrast(106%);
+            z-index: 2;
+        }
+
+        .modal-content h3 {
+            position: relative;
+            z-index: 1;
+            color: var(--sm-yellow);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: 'Sovjet Box', sans-serif;
+        }
+        .warning-diamond {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--sm-yellow);
+            background: transparent;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .warning-diamond::before {
+            content: '!';
+            position: absolute;
+            transform: rotate(-45deg);
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--sm-yellow);
+        }
+
+        .modal-content p {
+            position: relative;
+            z-index: 1;
+            color: var(--sm-text-gray);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .modal-close {
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            color: var(--sm-text-white);
+            border: 2px solid var(--sm-text-gray);
+            border-radius: 12px;
+            font-weight: bold;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            padding: 0.35rem 1.5rem;
+        }
+
+        .modal-close span {
+            position: relative;
+            z-index: 1;
+            display: block;
+            text-align: center;
+            width: 100%;
+        }
+
+        .modal-close:hover {
+            border-color: var(--sm-text-white);
+        }
     </style>
 </head>
-<body class="blueprint-bg min-h-screen flex flex-col">
-    <header class="sm-header p-6 relative z-10">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col items-center">
-                <h1 class="text-4xl md:text-5xl site-title text-white mb-2 tracking-tight">
-                    ReDoIng Mods
-                </h1>
-                <p class="text-lg md:text-xl text-white/90 font-light tracking-wide">
-                    Scrap Mechanic Modding Group
-                </p>
+<body>
+    <div class="blueprint-bg">
+        <header class="sm-header p-6 relative z-10">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col items-center">
+                    <h1 class="text-4xl md:text-5xl site-title text-white mb-2 tracking-tight">
+                        ReDoIng Mods
+                    </h1>
+                    <p class="text-lg md:text-xl text-white/90 font-light tracking-wide">
+                        Scrap Mechanic Modding Group
+                    </p>
+                </div>
             </div>
+        </header>
+
+        <nav class="sm-nav py-4 relative z-10">
+            <div class="container mx-auto px-4">
+                <ul class="flex flex-wrap justify-center space-x-8 md:space-x-12">
+                    <li><a href="#home" class="sm-nav-link">Home</a></li>
+                    <li><a href="#mods" class="sm-nav-link">Our Mods</a></li>
+                    <li><a href="#about" class="sm-nav-link">About Us</a></li>
+                    <li><a href="#contact" class="sm-nav-link">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="flex-grow container mx-auto px-4 py-8 relative z-10 max-w-[1800px]">
+            <section class="sm-container p-8 mb-8 text-center">
+                <h1 class="text-4xl font-bold text-white mb-4 site-title">Welcome to ReDoIng Mods</h1>
+                <p class="text-xl text-white/90 max-w-3xl mx-auto">
+                    We create amazing mods for Scrap Mechanic to enhance your gaming experience. Our team is dedicated to bringing new features and improvements to the game.
+                </p>
+            </section>
+
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-28">
+                <div class="sm-container p-6">
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+                        <img src="https://github.com/ReDoIngMods/ReDoIngMods.github.io/blob/main/Resources/img/Fuel1k.png?raw=true" alt="Gas Engine" class="card-image">
+                        <div class="card-content">
+                            <h2 class="text-2xl text-white mb-4 site-title">Community</h2>
+                            <p class="text-white/90 mb-4">Join our vibrant community of modders and players, fueled by passionate people. Share your creations, get help, and collaborate with others.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sm-container p-6">
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+                        <img src="https://github.com/ReDoIngMods/ReDoIngMods.github.io/blob/main/Resources/img/Cookbot1k.png?raw=true" alt="Cookbot" class="card-image cookbot">
+                        <div class="card-content">
+                            <h2 class="text-2xl text-white mb-4 site-title">Mods</h2>
+                            <p class="text-white/90 mb-4">Explore our collection of delicious high-quality mods designed to enhance your Scrap Mechanic experience.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sm-container p-6">
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+                        <img src="https://github.com/ReDoIngMods/ReDoIngMods.github.io/blob/main/Resources/img/Tutorial1k.png?raw=true" alt="Tutorial" class="card-image">
+                        <div class="card-content">
+                            <h2 class="text-2xl text-white mb-4 site-title">Resources</h2>
+                            <p class="text-white/90 mb-4">Access tutorials, documentation, and tools to help you create your own amazing mods.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="sm-header py-8 mt-auto relative z-10">
+            <div class="container mx-auto px-4 text-center">
+                <p class="mb-6 text-white/90">&copy; 2025 ReDoIng Mods. All rights reserved.</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="https://discord.gg/DyUxeyAJRz" class="sm-button" target="_blank"><span>Discord</span></a>
+                    <a href="https://github.com/ReDoIngMods" class="sm-button" target="_blank"><span>Github</span></a>
+                    <a href="#" class="sm-button disabled" onclick="showModal()"><span>Steam Workshop</span></a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal -->
+    <div id="workshopModal" class="modal">
+        <div class="modal-content">
+            <!-- This one, we don't want all caps -->
+            <h3 class="site-title capitalize">
+                <div class="warning-diamond"></div>
+                Hey!
+            </h3>
+            <p>Our Steam Workshop collection is currently under development. Check back later for our mods!</p>
+            <div class="modal-close" onclick="hideModal()"><span>OK</span></div>
         </div>
-    </header>
+    </div>
 
-    <nav class="sm-nav py-4 relative z-10">
-        <div class="container mx-auto px-4">
-            <ul class="flex flex-wrap justify-center space-x-8 md:space-x-12">
-                <li><a href="#home" class="sm-nav-link">Home</a></li>
-                <li><a href="#mods" class="sm-nav-link">Our Mods</a></li>
-                <li><a href="#about" class="sm-nav-link">About Us</a></li>
-                <li><a href="#contact" class="sm-nav-link">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+    <script>
+        function showModal() {
+            document.getElementById('workshopModal').style.display = 'flex';
+        }
 
-    <main class="flex-grow container mx-auto px-4 py-8 relative z-10">
-        <section class="sm-container p-8 mb-8 text-center">
-            <h1 class="text-4xl font-bold text-white mb-4">Welcome to ReDoIng Mods</h1>
-            <p class="text-xl text-white/90 max-w-3xl mx-auto">
-                We create amazing mods for Scrap Mechanic to enhance your gaming experience. Our team is dedicated to bringing new features and improvements to the game.
-            </p>
-        </section>
+        function hideModal() {
+            document.getElementById('workshopModal').style.display = 'none';
+        }
 
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="sm-container p-6">
-                <h2 class="text-2xl font-bold text-white mb-4">Quality Mods</h2>
-                <p class="text-white/90">
-                    We create high-quality mods that are thoroughly tested and optimized for the best performance.
-                </p>
-            </div>
-            <div class="sm-container p-6">
-                <h2 class="text-2xl font-bold text-white mb-4">Community Driven</h2>
-                <p class="text-white/90">
-                    Our mods are created with the community in mind, taking feedback and suggestions to heart.
-                </p>
-            </div>
-            <div class="sm-container p-6">
-                <h2 class="text-2xl font-bold text-white mb-4">Regular Updates</h2>
-                <p class="text-white/90">
-                    We maintain and update our mods regularly to ensure compatibility with the latest game versions.
-                </p>
-            </div>
-        </section>
-    </main>
-
-    <footer class="sm-header py-8 mt-auto relative z-10">
-        <div class="container mx-auto px-4 text-center">
-            <p class="mb-6 text-white/90">&copy; 2025 ReDoIng Mods. All rights reserved.</p>
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="#" class="sm-button" target="_blank"><span>Discord</span></a>
-                <a href="#" class="sm-button" target="_blank"><span>Github</span></a>
-                <a href="#" class="sm-button" target="_blank"><span>Steam Workshop</span></a>
-            </div>
-        </div>
-    </footer>
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('workshopModal');
+            if (event.target == modal) {
+                hideModal();
+            }
+        }
+    </script>
 </body>
 </html>
