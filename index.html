@@ -34,44 +34,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="fonts.css">
     <style>
-        @font-face {
-            font-family: 'Sovjet Box';
-            src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/refs/heads/main/Resources/fonts/SovjetBoxBd_v0_9.otf') format('opentype');
-            font-weight: bold;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: 'Inter Medium';
-            src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/refs/heads/main/Resources/fonts/Inter_Medium.ttf') format('truetype');
-            font-weight: 500;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: 'Shentox Regular';
-            src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/refs/heads/main/Resources/fonts/Shentox_Regular.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: 'Shentox Medium';
-            src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/refs/heads/main/Resources/fonts/Shentox_Medium.ttf') format('truetype');
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: 'Shentox SemiBold';
-            src: url('https://raw.githubusercontent.com/ReDoIngMods/ReDoIngMods.github.io/refs/heads/main/Resources/fonts/Shentox_Bold.ttf') format('truetype');
-            font-style: normal;
-            font-display: swap;
-        }
-
         :root {
             --sm-bg-color: #1e5270;
             --sm-yellow: #ffd700;
@@ -97,6 +59,7 @@
             display: flex;
             flex-direction: column;
             width: 100%;
+            overflow-x: hidden; /* Add overflow control to prevent horizontal scroll */
         }
 
         html {
@@ -106,12 +69,10 @@
         }
 
         h1, h2, h3, h4, h5, h6 {
-            font-family: 'Sovjet Box', sans-serif;
             letter-spacing: 0.02em;
         }
 
         .site-title {
-            font-family: 'Sovjet Box', sans-serif;
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
@@ -149,6 +110,7 @@
             flex-direction: column;
             padding: 0;
             margin: 0;
+            overflow-x: hidden; /* Add overflow control to prevent horizontal scroll */
         }
 
         .blueprint-bg::before {
@@ -166,7 +128,7 @@
                 repeating-linear-gradient(90deg, var(--sm-grid-line-light) 0px, var(--sm-grid-line-light) 0.5px, transparent 0.5px, transparent 8px),
                 repeating-linear-gradient(0deg, var(--sm-grid-line-light) 0px, var(--sm-grid-line-light) 0.5px, transparent 0.5px, transparent 8px);
             background-size: 40px 40px;
-            animation: moveGrid 20s linear infinite;
+            animation: moveGrid 8s linear infinite;
             z-index: 0;
             pointer-events: none;
         }
@@ -188,39 +150,11 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             display: flex;
             flex-direction: column;
-            margin-top: 50px;
+            margin: 50px 10px 0;
             min-height: 160px;
         }
-
-        .card-image {
-            position: absolute;
-            left: -80px;
-            top: 50%;
-            transform: translateY(-50%);
-            height: 160px;
-            width: auto;
-            opacity: 0.9;
-            pointer-events: none;
-            object-fit: contain;
-            filter: drop-shadow(5px 8px 12px rgba(0, 0, 0, 0.5));
-            z-index: 2;
-            transition: transform 0.3s ease;
-        }
-
-        .card-image.cookbot {
-            height: 200px;
-            left: -100px;
-        }
-
-        .card-content {
-            position: relative;
-            z-index: 1;
-            padding: 16px;
-            padding-left: 100px;
-            flex: 1;
-            text-align: left;
-        }
-
+        
+        /* Add the yellow stripes back to the cards */
         .sm-container::before {
             content: '';
             position: absolute;
@@ -249,18 +183,145 @@
                 0 52%, 4px 52%, 4px 45%, 0 45%,
                 0 37%, 4px 37%, 4px 30%, 0 30%
             );
+            z-index: 1;
+        }
+
+        .card-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding: 1rem;
+            width: 100%;
+            z-index: 2; /* Ensure content is above the stripes */
+        }
+
+        .card-image {
+            width: auto;
+            height: 120px;
+            opacity: 0.9;
+            pointer-events: none;
+            object-fit: contain;
+            filter: drop-shadow(5px 8px 12px rgba(0, 0, 0, 0.5));
+            transition: transform 0.3s ease;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-image.cookbot {
+            height: 140px;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+            padding: 0 1rem;
+            flex: 1;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* On mobile, icons are above content */
+        @media (max-width: 767px) {
+            .card-image {
+                margin-top: -50px; /* Make image poke out the top */
+            }
+            
+            .card-image.cookbot {
+                margin-top: -60px;
+            }
+            
+            .sm-container {
+                padding-top: 60px; /* Add space for the image */
+            }
+        }
+
+        /* On desktop, icons poke out the left side */
+        @media (min-width: 768px) {
+            .card-wrapper {
+                flex-direction: row;
+                align-items: center;
+                padding: 1.5rem 1.5rem 1.5rem 0; /* Remove padding from left */
+            }
+            
+            .card-image {
+                margin-left: -60px; /* Make image poke out the left */
+                margin-right: 1.5rem;
+                margin-bottom: 0;
+                height: 100px;
+            }
+            
+            .card-image.cookbot {
+                height: 120px;
+                margin-left: -70px;
+            }
+            
+            .card-content {
+                text-align: left;
+                padding: 0;
+            }
+            
+            .sm-container {
+                margin-left: 60px; /* Add space for the image */
+            }
+        }
+
+        @media (min-width: 992px) {
+            .card-image {
+                height: 110px;
+                margin-left: -70px;
+            }
+            
+            .card-image.cookbot {
+                height: 130px;
+                margin-left: -80px;
+            }
+            
+            .sm-container {
+                margin-left: 70px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .card-image {
+                height: 120px;
+                margin-left: -80px;
+            }
+            
+            .card-image.cookbot {
+                height: 140px;
+                margin-left: -90px;
+            }
+            
+            .sm-container {
+                margin-left: 80px;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .card-image {
+                height: 140px;
+                margin-left: -90px;
+            }
+            
+            .card-image.cookbot {
+                height: 160px;
+                margin-left: -100px;
+            }
+            
+            .sm-container {
+                margin-left: 90px;
+            }
         }
 
         .sm-container:hover .card-image {
-            transform: translateY(-50%) translateY(-5px);
+            transform: translateY(-5px);
         }
-
-        .sm-container:hover .card-image.cookbot {
-            transform: translateY(-50%) translateY(-5px);
-        }
-
-        .sm-container:hover .card-image.cookbot:last-child {
-            transform: translateY(-50%) translateY(-5px);
+        
+        /* Ensure the left-most card doesn't get cut off */
+        section.grid {
+            padding-left: 0; /* Let the card margins handle spacing */
         }
 
         .sm-button {
@@ -460,7 +521,6 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            font-family: 'Sovjet Box', sans-serif;
         }
         .warning-diamond {
             width: 40px;
@@ -547,7 +607,7 @@
             </div>
         </nav>
 
-        <main class="flex-grow container mx-auto px-4 py-8 relative z-10 max-w-[1800px]">
+        <main class="flex-grow container mx-auto px-4 py-8 relative z-10 max-w-[1800px] overflow-x-hidden">
             <section class="sm-container p-8 mb-8 text-center">
                 <h1 class="text-4xl font-bold text-white mb-4 site-title SM_HeaderXLarge_Wide">Welcome to ReDoIng Mods</h1>
                 <p class="text-xl text-white/90 max-w-3xl mx-auto SM_TextLarge">
@@ -555,9 +615,9 @@
                 </p>
             </section>
 
-            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-28">
-                <div class="sm-container p-6">
-                    <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                <div class="sm-container">
+                    <div class="card-wrapper">
                         <img src="https://github.com/ReDoIngMods/ReDoIngMods.github.io/blob/main/Resources/img/Fuel1k.png?raw=true" alt="Gas Engine" class="card-image">
                         <div class="card-content">
                             <h2 class="text-2xl text-white mb-4 site-title SM_HeaderLarge_Medium">Community</h2>
@@ -566,8 +626,8 @@
                     </div>
                 </div>
 
-                <div class="sm-container p-6">
-                    <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+                <div class="sm-container">
+                    <div class="card-wrapper">
                         <img src="https://github.com/ReDoIngMods/ReDoIngMods.github.io/blob/main/Resources/img/Cookbot1k.png?raw=true" alt="Cookbot" class="card-image cookbot">
                         <div class="card-content">
                             <h2 class="text-2xl text-white mb-4 site-title SM_HeaderLarge_Medium">Mods</h2>
@@ -576,8 +636,8 @@
                     </div>
                 </div>
 
-                <div class="sm-container p-6">
-                    <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+                <div class="sm-container">
+                    <div class="card-wrapper">
                         <img src="https://github.com/ReDoIngMods/ReDoIngMods.github.io/blob/main/Resources/img/Tutorial1k.png?raw=true" alt="Tutorial" class="card-image">
                         <div class="card-content">
                             <h2 class="text-2xl text-white mb-4 site-title SM_HeaderLarge_Medium">Resources</h2>
