@@ -69,9 +69,40 @@ const { title, description = "A Scrap Mechanic Modding Group" } = Astro.props;
 			</nav>
 
 			<!-- Removed container and mx-auto classes -->
-			<main class="flex-grow px-4 py-8 relative z-10">
+			<main class="flex-grow py-8 relative z-10">
 				<slot />
 			</main>
+
+            <!-- Forced to do css as theres no 3xl: or 4xl: property in tailwindcss -->
+            <style>
+                body > div > main {
+                    padding-left: 2rem;
+                    padding-right: 2rem;
+                }
+
+                /* Don't change the order! */
+
+                @media (min-width: 1600px) {
+                    body > div > main {
+                        padding-left: 6.5rem !important;
+                        padding-right: 6.5rem !important;
+                    }
+                }
+
+                @media (min-width: 1920px) {
+                    body > div > main {
+                        padding-left: 13rem !important;
+                        padding-right: 13rem !important;
+                    }
+                }
+
+                @media (min-width: 2560px) {
+                    body > div > main {
+                        padding-left: 26rem !important;
+                        padding-right: 26rem !important;
+                    }
+                }
+            </style>
 
 			<footer class="sm-header py-8 mt-auto relative z-10">
 				<div class="container mx-auto px-4 text-center">
