@@ -1,0 +1,33 @@
+[
+  {
+    "title": "Getting Started with Modding | ReDoIng Mods",
+    "url": "/docs/getting-started",
+    "headings": [
+      "Getting Started with Scrap Mechanic Modding",
+      "Prerequisites",
+      "Setting Up Your Development Environment",
+      "Step 1: Find Your Scrap Mechanic Installation",
+      "Step 2: Create a Mod Folder Structure",
+      "Step 3: Create the Description File",
+      "Creating Simple Parts",
+      "Custom Block Example",
+      "Testing Your Mod",
+      "Next Steps",
+      "Troubleshooting"
+    ],
+    "content": "Getting Started with Scrap Mechanic Modding\n\nThis guide will walk you through the basics of setting up your development environment and creating your first mod for Scrap Mechanic.\n\nPrerequisites\n\nBefore you begin, make sure you have:\n\nA copy of Scrap Mechanic installed on your computer\n\nBasic understanding of file structures and editing JSON files\n\nA text editor (we recommend Visual Studio Code)\n\nImage editing software for textures (optional)\n\nBasic understanding of Lua programming (for advanced mods)\n\nSetting Up Your Development Environment\n\nStep 1: Find Your Scrap Mechanic Installation\n\nFirst, you need to locate your Scrap Mechanic installation folder. By default, it's usually in:\n\nWindows: C:\\Program Files (x86)\\Steam\\steamapps\\common\\Scrap Mechanic\n\nmacOS: ~/Library/Application Support/Steam/steamapps/common/Scrap Mechanic\n\nLinux: ~/.steam/steam/steamapps/common/Scrap Mechanic\n\nStep 2: Create a Mod Folder Structure\n\nCreate a new folder for your mod in the game's Survival/Mods/ directory with the following structure:\n\nStep 3: Create the Description File\n\nThe description.json file contains metadata about your mod. Here's an example:\n\nCreating Simple Parts\n\nCustom Block Example\n\nTo create a simple custom block:\n\nCreate a new folder in Objects/Database/ShapeSets named after your block\n\nCreate a block.json file with the block properties\n\nAdd texture files for your block\n\nRegister your block in the game's database\n\nHere's an example block.json:\n\nTesting Your Mod\n\nTo test your mod:\n\nStart Scrap Mechanic\n\nLoad a creative or survival game\n\nYour mod should be automatically loaded if in the correct directory\n\nNext Steps\n\nOnce you've created your first basic mod, you might want to explore:\n\nItem Creation - Learn how to create custom items\n\nLua Scripting - Add custom behaviors with Lua scripts\n\nJSON Formatting - Master the JSON format used by Scrap Mechanic\n\nTroubleshooting\n\nIf your mod isn't showing up:\n\nDouble-check file paths and locations\n\nVerify JSON syntax (use a JSON validator)\n\nCheck the game's log files for errors\n\nMake sure your mod supports the current game version"
+  },
+  {
+    "title": "Documentation | ReDoIng Mods",
+    "url": "/docs",
+    "headings": [
+      "Scrap Mechanic Modding Documentation",
+      "What is Scrap Mechanic?",
+      "Why Mod Scrap Mechanic?",
+      "Getting Started",
+      "Community Resources",
+      "Contributing to This Documentation"
+    ],
+    "content": "Scrap Mechanic Modding Documentation\n\nWelcome to the official ReDoIng Mods documentation. This guide will help you get started with modding Scrap Mechanic and creating amazing content for the game.\n\nWhat is Scrap Mechanic?\n\nScrap Mechanic is a creative multiplayer sandbox game that allows players to build vehicles, structures, and contraptions using a variety of parts and blocks. The game features a robust physics system and offers plenty of opportunities for creative expression through modding.\n\nWhy Mod Scrap Mechanic?\n\nModding Scrap Mechanic allows you to:\n\nAdd new items, blocks, and parts to the game\n\nCreate custom gameplay mechanics\n\nEnhance the existing game features\n\nShare your creations with the community\n\nCollaborate with other modders\n\nGetting Started\n\nIf you're new to modding Scrap Mechanic, we recommend starting with our Getting Started guide, which covers the basic tools and concepts you'll need to know.\n\nCommunity Resources\n\nThe Scrap Mechanic modding community is active and helpful. Here are some resources you might find useful:\n\nScrap Mechanic Workshop\n\nScrap Mechanic Modding Wiki\n\n3rd party modding wiki\n\nContributing to This Documentation\n\nWe welcome contributions to this documentation! If you find errors, have suggestions for improvements, or want to add new content, please visit our GitHub repository and submit a pull request."
+  }
+]

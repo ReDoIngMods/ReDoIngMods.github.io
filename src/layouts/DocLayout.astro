@@ -1,0 +1,204 @@
+---
+import Layout from './Layout.astro';
+import SearchDocs from '../components/SearchDocs.astro';
+
+export interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+	<div class="flex flex-col md:flex-row gap-8">
+		<aside class="w-full md:w-64 flex-shrink-0">
+			<div class="bg-sm-ui p-4 rounded-tr-[24px] rounded-bl-[24px] sticky top-8">
+				<h3 class="text-white text-xl mb-4 site-title">Documentation</h3>
+				
+				<!-- Add the search component -->
+				<SearchDocs />
+				
+				<nav class="docs-nav">
+					<ul class="space-y-2">
+						<li><a href="/docs" class="text-white hover:text-sm-yellow">Introduction</a></li>
+						<li><a href="/docs/getting-started" class="text-white hover:text-sm-yellow">Getting Started</a></li>
+						
+						<!-- Mod Development dropdown example
+						<li class="dropdown-container">
+							<button class="dropdown-toggle text-sm-yellow w-full text-left flex items-center justify-between" aria-expanded="false">
+								<span class="block mt-4 mb-2">Mod Development</span>
+								<span class="dropdown-icon">»</span>
+							</button>
+							<ul class="dropdown-content pl-4 space-y-2 hidden">
+								<li><a href="/docs/basics" class="text-white hover:text-sm-yellow">Basics</a></li>
+								<li><a href="/docs/item-creation" class="text-white hover:text-sm-yellow">Item Creation</a></li>
+								<li><a href="/docs/lua-scripting" class="text-white hover:text-sm-yellow">Lua Scripting</a></li>
+								<li><a href="/docs/json-formatting" class="text-white hover:text-sm-yellow">JSON Formatting</a></li>
+							</ul>
+						</li> -->
+					</ul>
+				</nav>
+			</div>
+		</aside>
+
+		<div class="flex-grow">
+			<article class="doc-content shadow-lg">
+				<slot />
+			</article>
+		</div>
+	</div>
+</Layout>
+
+<style>
+	.docs-nav a {
+		display: block;
+		padding: 0.25rem 0;
+		transition: color 0.2s ease;
+	}
+	
+	.dropdown-icon {
+		font-size: 1.2rem;
+		transition: transform 0.3s ease;
+	}
+	
+	.dropdown-toggle[aria-expanded="true"] .dropdown-icon {
+		transform: rotate(90deg);
+	}
+	
+	.dropdown-toggle {
+		cursor: pointer;
+		transition: color 0.2s ease;
+		/* Using CSS custom properties for the yellow colors */
+		--sm-yellow-color: #ffd700; /* Base yellow */
+		--sm-yellow-hover: #ffef99; /* Lighter yellow for hover */
+		--sm-yellow-active: #fff5cc; /* Even lighter yellow for active/click */
+	}
+	
+	.dropdown-toggle:hover {
+		color: var(--sm-yellow-hover);
+	}
+	
+	.dropdown-toggle:active {
+		color: var(--sm-yellow-active);
+	}
+	
+	/* Styles for section highlighting */
+	:target {
+		scroll-margin-top: 2rem;
+	}
+	
+	:target::before {
+		content: '';
+		display: block;
+		position: absolute;
+		left: -1rem;
+		top: 0;
+		bottom: 0;
+		width: 0.25rem;
+		border-radius: 0.125rem;
+		background-color: var(--sm-yellow);
+		animation: pulse 2s ease-out 1;
+	}
+	
+	@keyframes pulse {
+		0% {
+			box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+		}
+		70% {
+			box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
+		}
+		100% {
+			box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+		}
+	}
+
+	/* Make the buttons rounded on all corners */
+	.sm-button {
+		border-radius: 12px !important;
+		clip-path: none !important;
+	}
+
+	.sm-button::before {
+		border-radius: 8px !important;
+	}
+
+	.modal-close {
+		border-radius: 12px !important;
+	}
+</style>
+
+<script>
+	// Initialize dropdowns on page load
+	document.addEventListener('DOMContentLoaded', () => {
+		const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+		
+		dropdownToggles.forEach(toggle => {
+			toggle.addEventListener('click', () => {
+				// Get the dropdown content associated with this toggle
+				const content = toggle.nextElementSibling;
+				const expanded = toggle.getAttribute('aria-expanded') === 'true';
+				
+				// Toggle the aria-expanded attribute
+				toggle.setAttribute('aria-expanded', !expanded ? 'true' : 'false');
+				
+				// Toggle the visibility of the dropdown content
+				content?.classList.toggle('hidden');
+			});
+		});
+		
+		// Check if there's a hash in the URL and expand the relevant dropdown
+		const expandRelevantDropdown = () => {
+			const path = window.location.pathname;
+			
+			dropdownToggles.forEach(toggle => {
+				const content = toggle.nextElementSibling;
+				const links = content?.querySelectorAll('a');
+				
+				// Check if any of the links in this dropdown match the current path
+				const shouldExpand = Array.from(links || []).some(link => 
+					link.getAttribute('href') === path || path.startsWith(link.getAttribute('href') + '/')
+				);
+				
+				if (shouldExpand) {
+					toggle.setAttribute('aria-expanded', 'true');
+					content?.classList.remove('hidden');
+				}
+			});
+		};
+		
+		expandRelevantDropdown();
+	});
+	
+	// Function to handle scrolling to sections when URL hash is present
+	document.addEventListener('DOMContentLoaded', () => {
+		// Handle initial hash if present
+		if (window.location.hash) {
+			const targetElement = document.querySelector(window.location.hash);
+			if (targetElement) {
+				// Scroll to the element after a short delay to ensure layout is complete
+				setTimeout(() => {
+					targetElement.scrollIntoView();
+				}, 200);
+			}
+		}
+		
+		// Add IDs to all headings in the document for better anchoring
+		const contentArea = document.querySelector('.doc-content');
+		if (contentArea) {
+			const headings = contentArea.querySelectorAll('h1, h2, h3, h4, h5, h6');
+			headings.forEach(heading => {
+				if (!heading.id) {
+					const headingId = heading.textContent
+						.toLowerCase()
+						.replace(/[^\w\s-]/g, '')
+						.replace(/[\s-]+/g, '-');
+					heading.id = headingId;
+				}
+				
+				// Make headings relative position for the target indicator
+				heading.style.position = 'relative';
+			});
+		}
+	});
+</script>

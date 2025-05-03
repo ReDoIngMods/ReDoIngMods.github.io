@@ -1,0 +1,125 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: Getting Started with Modding | ReDoIng Mods
+description: Learn how to start creating mods for Scrap Mechanic
+---
+
+# Getting Started with Scrap Mechanic Modding
+
+This guide will walk you through the basics of setting up your development environment and creating your first mod for Scrap Mechanic.
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+- A copy of Scrap Mechanic installed on your computer
+- Basic understanding of file structures and editing JSON files
+- A text editor (we recommend [Visual Studio Code](https://code.visualstudio.com/))
+- Image editing software for textures (optional)
+- Basic understanding of Lua programming (for advanced mods)
+
+## Setting Up Your Development Environment
+
+### Step 1: Find Your Scrap Mechanic Installation
+
+First, you need to locate your Scrap Mechanic installation folder. By default, it's usually in:
+
+- Windows: `C:\Program Files (x86)\Steam\steamapps\common\Scrap Mechanic`
+- macOS: `~/Library/Application Support/Steam/steamapps/common/Scrap Mechanic`
+- Linux: `~/.steam/steam/steamapps/common/Scrap Mechanic`
+
+### Step 2: Create a Mod Folder Structure
+
+Create a new folder for your mod in the game's `Survival/Mods/` directory with the following structure:
+
+```
+MyMod/
+├── Objects/
+│   └── Database/
+│       └── ShapeSets/
+├── Scripts/
+├── description.json
+└── preview.jpg
+```
+
+### Step 3: Create the Description File
+
+The `description.json` file contains metadata about your mod. Here's an example:
+
+```json
+{
+  "name": "My First Mod",
+  "description": "A simple mod for Scrap Mechanic",
+  "type": "Blocks and Parts",
+  "version": "1.0.0",
+  "localId": "my-first-mod",
+  "supports": ["0.5.0", "0.5.1"]
+}
+```
+
+## Creating Simple Parts
+
+### Custom Block Example
+
+To create a simple custom block:
+
+1. Create a new folder in `Objects/Database/ShapeSets` named after your block
+2. Create a `block.json` file with the block properties
+3. Add texture files for your block
+4. Register your block in the game's database
+
+Here's an example `block.json`:
+
+```json
+{
+  "uuid": "11111111-2222-3333-4444-555555555555",
+  "name": "My Custom Block",
+  "renderable": {
+    "lodList": [
+      {
+        "mesh": "block.mesh",
+        "subMeshList": [
+          {
+            "textureList": [
+              "../textures/MyTexture.png"
+            ],
+            "material": "DifAsgNor"
+          }
+        ]
+      }
+    ]
+  },
+  "physics": {
+    "box": {
+      "x": 1.0,
+      "y": 1.0,
+      "z": 1.0
+    }
+  }
+}
+```
+
+## Testing Your Mod
+
+To test your mod:
+
+1. Start Scrap Mechanic
+2. Load a creative or survival game
+3. Your mod should be automatically loaded if in the correct directory
+
+## Next Steps
+
+Once you've created your first basic mod, you might want to explore:
+
+- [Item Creation](/docs/item-creation) - Learn how to create custom items
+- [Lua Scripting](/docs/lua-scripting) - Add custom behaviors with Lua scripts
+- [JSON Formatting](/docs/json-formatting) - Master the JSON format used by Scrap Mechanic
+
+## Troubleshooting
+
+If your mod isn't showing up:
+
+- Double-check file paths and locations
+- Verify JSON syntax (use a JSON validator)
+- Check the game's log files for errors
+- Make sure your mod supports the current game version

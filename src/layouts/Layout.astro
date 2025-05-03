@@ -1,0 +1,779 @@
+---
+export interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "A Scrap Mechanic Modding Group" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, viewport-fit=cover">
+		<meta name="description" content={description}>
+		<meta name="keywords" content="Scrap Mechanic, mods, modding, ReDoIng Mods">
+		<meta name="author" content="ReDoIng Mods">
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://ReDoIngMods.github.io/">
+		<meta property="og:title" content="ReDoIng Mods">
+		<meta property="og:description" content={description}>
+		<meta property="og:image" content="">
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image">
+		<meta property="twitter:url" content="https://ReDoIngMods.github.io/">
+		<meta property="twitter:title" content="ReDoIng Mods">
+		<meta property="twitter:description" content={description}>
+		<meta property="twitter:image" content="">
+
+		<title>{title}</title>
+		
+		<!-- Favicon -->
+		<link rel="icon" type="image/x-icon" href="/favicon.ico">
+		
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		
+		<slot name="head" />
+	</head>
+	<body>
+		<div class="blueprint-bg">
+			<header class="sm-header p-6 relative z-10">
+				<div class="container mx-auto px-4">
+					<div class="flex flex-col items-center">
+						<h1 class="text-4xl md:text-5xl site-title text-white mb-2 tracking-tight">
+							ReDoIng Mods
+						</h1>
+						<p class="text-lg md:text-xl text-white/90 font-light tracking-wide">
+							Scrap Mechanic Modding Group
+						</p>
+					</div>
+				</div>
+			</header>
+
+			<nav class="sm-nav py-4 relative z-10">
+				<div class="container mx-auto px-4">
+					<ul class="flex flex-wrap justify-center space-x-8 md:space-x-12">
+						<li><a href="/" class="sm-nav-link">Home</a></li>
+						<li><a href="/mods" class="sm-nav-link">Our Mods</a></li>
+						<li><a href="/docs" class="sm-nav-link">Documentation</a></li>
+						<li><a href="/about" class="sm-nav-link">About Us</a></li>
+						<li><a href="/contact" class="sm-nav-link">Contact</a></li>
+					</ul>
+				</div>
+			</nav>
+
+			<!-- Removed container and mx-auto classes -->
+			<main class="flex-grow px-4 py-8 relative z-10">
+				<slot />
+			</main>
+
+			<footer class="sm-header py-8 mt-auto relative z-10">
+				<div class="container mx-auto px-4 text-center">
+					<p class="mb-6 text-white/90">&copy; 2025 ReDoIng Mods. All rights reserved.</p>
+					<div class="flex flex-wrap justify-center gap-4">
+						<a href="https://discord.gg/DyUxeyAJRz" class="sm-button" target="_blank"><span>Discord</span></a>
+						<a href="https://github.com/ReDoIngMods" class="sm-button" target="_blank"><span>Github</span></a>
+						<a href="#" class="sm-button disabled" id="workshopButton"><span>Steam Workshop</span></a>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+		<!-- Modal -->
+		<div id="workshopModal" class="modal">
+			<div class="modal-content">
+				<h3 class="site-title capitalize">
+					<div class="warning-diamond"></div>
+					Hey!
+				</h3>
+				<p>Our Steam Workshop collection is currently under development. Check back later for our mods!</p>
+				<div class="modal-close" id="modalClose"><span>OK</span></div>
+			</div>
+		</div>
+
+		<script>
+			// Modal functionality
+			document.getElementById('workshopButton')?.addEventListener('click', (e) => {
+				e.preventDefault();
+				document.getElementById('workshopModal')!.style.display = 'flex';
+			});
+
+			document.getElementById('modalClose')?.addEventListener('click', () => {
+				document.getElementById('workshopModal')!.style.display = 'none';
+			});
+
+			// Close modal when clicking outside
+			window.addEventListener('click', (event) => {
+				const modal = document.getElementById('workshopModal');
+				if (event.target === modal) {
+					modal!.style.display = 'none';
+				}
+			});
+		</script>
+
+		<!-- SVG Definition for Nav Tab Shape -->
+		<svg width="0" height="0" style="position:absolute;z-index:-1;">
+		  <defs>
+		    <clipPath id="nav-tab-shape" clipPathUnits="objectBoundingBox">
+		      <!-- Define the trapezium with rounded top corners -->
+		      <!-- Adjust values (0.1, 0.9, 0.05) as needed for slant/radius -->
+		      <path d="M 0.1,0 
+		               L 0.9,0 
+		               A 0.05,0.05 0 0 1 0.95,0.05
+		               L 1,1 
+		               L 0,1 
+		               L 0.05,0.05 
+		               A 0.05,0.05 0 0 1 0.1,0 
+		               Z" />
+		    </clipPath>
+		  </defs>
+		</svg>
+
+		<style is:global>
+			@font-face {
+				/* Changed font-family and src */
+				font-family: 'Shentox'; 
+				src: url('/fonts/Shentox.otf') format('opentype'); /* Assuming Shentox.otf */
+				font-weight: bold;
+				font-style: normal;
+				font-display: swap;
+			}
+
+			:root {
+				--sm-bg-color: #1e5270;
+				--sm-yellow: #ffd700;
+				--sm-grid-line: rgba(52, 103, 132, 0.8);
+				--sm-ui-color: #2e3539;
+				--sm-grid-line-light: rgba(52, 103, 132, 0.4);
+				--sm-border-color: rgba(0, 0, 0, 0.2);
+				--sm-button-gradient-start: #ffba10;
+				--sm-button-gradient-end: #ff8200;
+				--sm-text-black: #000;
+				--sm-text-white: #fff;
+				--sm-text-gray: #aaa;
+				--sm-mask-black: rgba(0, 0, 0, 1);
+				--sm-mask-transparent: rgba(0, 0, 0, 0);
+			}
+
+			body {
+				margin: 0;
+				padding: 0;
+				min-height: 100vh;
+				min-height: 100dvh;
+				background-color: var(--sm-ui-color);
+				display: flex;
+				flex-direction: column;
+				width: 100%;
+			}
+
+			html {
+				margin: 0;
+				padding: 0;
+				background-color: var(--sm-ui-color);
+			}
+
+			h1, h2, h3, h4, h5, h6 {
+				/* Changed font-family */
+				font-family: 'Shentox', sans-serif;
+				letter-spacing: 0.02em;
+			}
+
+			.site-title {
+				/* Changed font-family */
+				font-family: 'Shentox', sans-serif;
+				letter-spacing: 0.05em;
+				text-transform: uppercase;
+			}
+
+			/* Scrollbar styling */
+			::-webkit-scrollbar {
+				width: 12px;
+			}
+
+			::-webkit-scrollbar-track {
+				background: var(--sm-ui-color);
+			}
+
+			::-webkit-scrollbar-thumb {
+				background: var(--sm-yellow);
+				border-radius: 6px;
+			}
+
+			::-webkit-scrollbar-thumb:hover {
+				background: var(--sm-button-gradient-end);
+			}
+
+			/* Firefox scrollbar */
+			* {
+				scrollbar-width: thin;
+				scrollbar-color: var(--sm-yellow) var(--sm-ui-color);
+			}
+
+			.blueprint-bg {
+				background-color: var(--sm-bg-color);
+				position: relative;
+				flex: 1;
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				padding: 0;
+				margin: 0;
+			}
+
+			.blueprint-bg::before {
+				content: '';
+				position: fixed;
+				width: 500%;
+				height: 500%;
+				top: -200%;
+				left: -200%;
+				transform: rotateX(25deg);
+				transform-origin: center center;
+				background-image: 
+					repeating-linear-gradient(90deg, var(--sm-grid-line) 0px, var(--sm-grid-line) 1px, transparent 1px, transparent 40px),
+					repeating-linear-gradient(0deg, var(--sm-grid-line) 0px, var(--sm-grid-line) 1px, transparent 1px, transparent 40px),
+					repeating-linear-gradient(90deg, var(--sm-grid-line-light) 0px, var(--sm-grid-line-light) 0.5px, transparent 0.5px, transparent 8px),
+					repeating-linear-gradient(0deg, var(--sm-grid-line-light) 0px, var(--sm-grid-line-light) 0.5px, transparent 0.5px, transparent 8px);
+				background-size: 40px 40px;
+				animation: moveGrid 20s linear infinite;
+				z-index: 0;
+				pointer-events: none;
+			}
+
+			@keyframes moveGrid {
+				0% {
+					transform: rotateX(25deg) translate(0, 0);
+				}
+				100% {
+					transform: rotateX(25deg) translate(-40px, -40px);
+				}
+			}
+
+			.sm-container {
+				background: var(--sm-ui-color);
+				border-radius: 0 24px 0 24px;
+				position: relative;
+				overflow: visible;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+				display: flex;
+				flex-direction: column;
+				margin-top: 50px; /* Keep margin for spacing between cards */
+				min-height: 160px;
+				/* Remove padding-top, image negative margin handles positioning */
+				/* padding-top: 1rem; */ 
+			}
+
+			/* Base styles for small screens */
+			.card-image {
+				position: relative;
+				display: block;
+				left: 0;
+				top: 0;
+				transform: none;
+				/* Double the size */
+				height: 200px; 
+				width: 200px;
+				/* Remove bottom margin */
+				margin: -100px auto 0 auto; 
+				filter: drop-shadow(3px 5px 8px rgba(0, 0, 0, 0.4));
+				z-index: 2; /* Ensure image is above content */
+				object-fit: contain;
+				pointer-events: none;
+				opacity: 0.9;
+			}
+
+			.card-image.cookbot {
+				/* Double the size */
+				height: 240px; 
+				width: 240px;
+				/* Adjust margins for cookbot */
+				margin: -120px auto 0 auto; 
+			}
+
+			.card-content {
+				position: relative;
+				z-index: 1;
+				/* Significantly reduce top padding (adjust as needed) */
+				padding: 4rem 1rem 1rem 1rem; 
+				flex: 1;
+				text-align: center; /* Center text on small screens */
+			}
+
+			/* Remove top margin from h2 inside card content on small screens */
+			.card-content h2 {
+				margin-top: 0;
+			}
+			
+			/* Styles for medium screens and up */
+			@media (min-width: 768px) {
+				.sm-container {
+					padding-top: 0; /* Ensure padding-top is reset */
+				}
+
+				.card-image {
+					position: absolute; /* Revert to absolute */
+					left: -80px; /* Original offset */
+					top: 50%; /* Original vertical centering */
+					transform: translateY(-50%); /* Original vertical centering */
+					/* Revert to original size */
+					height: 160px; 
+					width: auto; 
+					margin: 0; /* Ensure margin is fully reset */
+					filter: drop-shadow(5px 8px 12px rgba(0, 0, 0, 0.5)); /* Original shadow */
+					z-index: 2; /* Original z-index */
+					transition: transform 0.3s ease; /* Add back transition */
+				}
+
+				.card-image.cookbot {
+					/* Revert to original size */
+					height: 200px; 
+					/* ... existing styles ... */
+					width: auto; /* Reset width */
+					margin: 0; /* Ensure margin is fully reset */
+				}
+
+				.card-content {
+					/* Revert to original padding */
+					padding: 16px; 
+					padding-left: 100px; /* Re-apply left padding */
+					text-align: left; /* Reset text alignment */
+				}
+
+				/* Reset h2 margin for larger screens if needed (Tailwind might handle this) */
+				.card-content h2 {
+					margin-top: revert; /* Or specific value if needed */
+				}
+
+				.sm-container:hover .card-image {
+					transform: translateY(-50%) translateY(-5px); /* Original hover effect */
+				}
+	
+				.sm-container:hover .card-image.cookbot {
+					transform: translateY(-50%) translateY(-5px); /* Original cookbot hover effect */
+				}
+			}
+
+
+			.sm-container::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: repeating-linear-gradient(
+					45deg,
+					var(--sm-yellow) 0,
+					var(--sm-yellow) 2px,
+					transparent 2px,
+					transparent 8px
+				);
+				opacity: 0.15;
+				mask-image: linear-gradient(to bottom, var(--sm-mask-black) 0%, var(--sm-mask-transparent) 35%);
+				-webkit-mask-image: linear-gradient(to bottom, var(--sm-mask-black) 0%, var(--sm-mask-transparent) 35%);
+				border-radius: 0 24px 0 24px;
+				clip-path: polygon(
+					0 0, 100% 0,
+					100% 30%, calc(100% - 4px) 30%, calc(100% - 4px) 37%, 100% 37%,
+					100% 45%, calc(100% - 4px) 45%, calc(100% - 4px) 52%, 100% 52%,
+					100% 60%, calc(100% - 4px) 60%, calc(100% - 4px) 67%, 100% 67%,
+					100% 100%, 0 100%,
+					0 67%, 4px 67%, 4px 60%, 0 60%,
+					0 52%, 4px 52%, 4px 45%, 0 45%,
+					0 37%, 4px 37%, 4px 30%, 0 30%
+				);
+			}
+
+			/* Remove hover effects for small screens as they are not absolutely positioned */
+			/* .sm-container:hover .card-image {
+				transform: translateY(-50%) translateY(-5px);
+			}
+
+			.sm-container:hover .card-image.cookbot {
+				transform: translateY(-50%) translateY(-5px);
+			} */
+
+			.sm-button {
+				background: linear-gradient(to bottom, var(--sm-button-gradient-start) 0%, var(--sm-button-gradient-end) 100%);
+				color: var(--sm-text-black);
+				padding: 0.75rem 1rem;
+				border-radius: 12px;
+				font-weight: bold;
+				transition: all 0.2s;
+				text-transform: uppercase;
+				font-size: 0.9rem;
+				letter-spacing: 0.5px;
+				margin: 0 0.5rem;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				min-width: 180px;
+				position: relative;
+				cursor: pointer;
+				/* Removing the clip-path to allow for rounded corners */
+				/* clip-path: polygon(
+					0 0, 100% 0,
+					100% 30%, calc(100% - 4px) 30%, calc(100% - 4px) 37%, 100% 37%,
+					100% 45%, calc(100% - 4px) 45%, calc(100% - 4px) 52%, 100% 52%,
+					100% 60%, calc(100% - 4px) 60%, calc(100% - 4px) 67%, 100% 67%,
+					100% 100%, 0 100%,
+					0 67%, 4px 67%, 4px 60%, 0 60%,
+					0 52%, 4px 52%, 4px 45%, 0 45%,
+					0 37%, 4px 37%, 4px 30%, 0 30%
+				); */
+			}
+
+			.sm-button.disabled {
+				background: linear-gradient(to bottom, #4a4a4a 0%, #2a2a2a 100%);
+				cursor: not-allowed;
+				opacity: 0.7;
+			}
+
+			.sm-button.disabled:hover {
+				background: linear-gradient(to bottom, #4a4a4a 0%, #2a2a2a 100%);
+			}
+
+			.sm-button span {
+				position: relative;
+				z-index: 1;
+				display: block;
+				text-align: center;
+				width: 100%;
+			}
+
+			.sm-button::before {
+				content: '';
+				position: absolute;
+				inset: 6px;
+				border: 2px solid rgba(0,0,0,0.2);
+				border-radius: 8px;
+				pointer-events: none;
+			}
+
+			.sm-button:hover {
+				background: linear-gradient(to bottom, #fdf895 0%, #dd9931 100%);
+			}
+
+			.sm-header {
+				/* Revert background to the original darker color */
+				background: var(--sm-ui-color); 
+				position: relative;
+				overflow: hidden;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+				width: 100%;
+				padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
+			}
+
+			.sm-header::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: repeating-linear-gradient(
+					45deg,
+					var(--sm-yellow) 0,
+					var(--sm-yellow) 2px,
+					transparent 2px,
+					transparent 8px
+				);
+				opacity: 0.2;
+				mask-image: linear-gradient(to bottom, var(--sm-mask-black) 0%, var(--sm-mask-transparent) 35%);
+				-webkit-mask-image: linear-gradient(to bottom, var(--sm-mask-black) 0%, var(--sm-mask-transparent) 35%);
+				pointer-events: none;
+			}
+
+			.sm-nav {
+				background: var(--sm-ui-color);
+				position: relative;
+				/* Add padding to contain the angled tabs */
+				padding-bottom: 10px; 
+			}
+
+			.sm-nav-link {
+				color: var(--sm-text-white);
+				position: relative;
+				/* Adjust padding for symmetrical trapezium shape */
+				padding: 0.75rem 2rem; 
+				transition: all 0.2s;
+				/* Set background to the lighter color */
+				background-color: #3a4145; /* #2e3539 */
+				/* Apply SVG clip-path */
+				clip-path: url(#nav-tab-shape);
+				/* Remove border-radius as it's handled by SVG */
+				/* border-top-left-radius: 8px; */
+				/* border-top-right-radius: 8px; */
+				text-transform: uppercase;
+				font-weight: bold;
+				font-size: 0.9rem;
+				margin: 0; 
+				border-top: 2px solid #555e63; /* Subtle top border */
+				text-decoration: none; /* Remove default underline */
+			}
+
+			.sm-nav-link:hover {
+				/* Set hover background to the darker color */
+				background-color: var(--sm-ui-color); 
+				color: var(--sm-yellow);
+				transform: translateY(-2px); /* Slight lift on hover */
+			}
+
+			/* Style for the active/current page link (requires JS or Astro logic to add a class) */
+			.sm-nav-link.active {
+				/* Set active background to the darker color */
+				background-color: var(--sm-ui-color); 
+				color: var(--sm-yellow);
+				border-top-color: var(--sm-yellow);
+				z-index: 1; /* Bring active tab to front */
+			}
+
+			footer.sm-header {
+				padding-bottom: env(safe-area-inset-bottom);
+				margin-top: auto;
+				padding-left: env(safe-area-inset-left);
+				padding-right: env(safe-area-inset-right);
+			}
+
+			@supports(padding: max(0px)) {
+				.sm-header {
+					padding-top: max(env(safe-area-inset-top), 20px);
+					padding-left: max(env(safe-area-inset-left), 16px);
+					padding-right: max(env(safe-area-inset-right), 16px);
+				}
+				
+				footer.sm-header {
+					padding-bottom: max(env(safe-area-inset-bottom), 20px);
+					padding-left: max(env(safe-area-inset-left), 16px);
+					padding-right: max(env(safe-area-inset-right), 16px);
+				}
+			}
+
+			.modal {
+				display: none;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0, 0, 0, 0.7);
+				z-index: 1000;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.modal-content {
+				background: var(--sm-ui-color);
+				padding: 3rem 2rem 2rem;
+				max-width: 90%;
+				width: 400px;
+				text-align: center;
+				position: relative;
+				border-radius: 0 24px 0 24px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+				overflow: hidden;
+			}
+
+			.modal-content::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: repeating-linear-gradient(
+					45deg,
+					var(--sm-yellow) 0,
+					var(--sm-yellow) 2px,
+					transparent 2px,
+					transparent 8px
+				);
+				opacity: 0.15;
+				mask-image: linear-gradient(to bottom, var(--sm-mask-black) 0%, var(--sm-mask-transparent) 35%);
+				-webkit-mask-image: linear-gradient(to bottom, var(--sm-mask-black) 0%, var(--sm-mask-transparent) 35%);
+				border-radius: 0 24px 0 24px;
+				z-index: 0;
+			}
+
+			.modal-content::after {
+				content: '';
+				position: absolute;
+				top: -60px;
+				left: 50%;
+				transform: translateX(-50%);
+				width: 64px;
+				height: 64px;
+				background-image: url('/img/Hammer1k.png');
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+				filter: brightness(0) saturate(100%) invert(79%) sepia(83%) saturate(895%) hue-rotate(359deg) brightness(103%) contrast(106%);
+				z-index: 2;
+			}
+
+			.modal-content h3 {
+				position: relative;
+				z-index: 1;
+				color: var(--sm-yellow);
+				margin-bottom: 1rem;
+				font-size: 2rem;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 0.5rem;
+				font-family: 'Sovjet Box', sans-serif;
+			}
+			.warning-diamond {
+				width: 40px;
+				height: 40px;
+				border: 4px solid var(--sm-yellow);
+				background: transparent;
+				transform: rotate(45deg);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				position: relative;
+				margin-bottom: 0.5rem;
+				border-radius: 8px;
+			}
+
+			.warning-diamond::before {
+				content: '!';
+				position: absolute;
+				transform: rotate(-45deg);
+				font-size: 24px;
+				font-weight: bold;
+				color: var(--sm-yellow);
+			}
+
+			.modal-content p {
+				position: relative;
+				z-index: 1;
+				color: var(--sm-text-gray);
+				margin-bottom: 1.5rem;
+				font-size: 1.1rem;
+			}
+
+			.modal-close {
+				position: relative;
+				z-index: 1;
+				display: inline-block;
+				color: var(--sm-text-white);
+				border: 2px solid var(--sm-text-gray);
+				border-radius: 12px;
+				font-weight: bold;
+				transition: all 0.2s;
+				font-size: 0.9rem;
+				letter-spacing: 0.5px;
+				cursor: pointer;
+				padding: 0.35rem 1.5rem;
+			}
+
+			.modal-close span {
+				position: relative;
+				z-index: 1;
+				display: block;
+				text-align: center;
+				width: 100%;
+			}
+
+			.modal-close:hover {
+				border-color: var(--sm-text-white);
+			}
+			
+			/* Documentation page styles */
+			.doc-content {
+				background: var(--sm-ui-color);
+				border-radius: 0 24px 0 24px;
+				padding: 2rem;
+				margin-bottom: 2rem;
+				color: var(--sm-text-white);
+			}
+			
+			.doc-content h1, 
+			.doc-content h2, 
+			.doc-content h3,
+			.doc-content h4,
+			.doc-content h5 {
+				color: var(--sm-yellow);
+				margin-top: 2rem;
+				margin-bottom: 1rem;
+			}
+			
+			.doc-content h1:first-child {
+				margin-top: 0;
+			}
+			
+			.doc-content a {
+				color: var(--sm-yellow);
+				text-decoration: underline;
+				text-decoration-style: dotted;
+			}
+			
+			.doc-content a:hover {
+				text-decoration-style: solid;
+			}
+			
+			.doc-content code {
+				background: rgba(0, 0, 0, 0.3);
+				padding: 0.2rem 0.4rem;
+				border-radius: 4px;
+				font-family: monospace;
+			}
+			
+			.doc-content pre {
+				background: rgba(0, 0, 0, 0.3);
+				padding: 1rem;
+				border-radius: 8px;
+				overflow-x: auto;
+				margin: 1.5rem 0;
+			}
+			
+			.doc-content pre code {
+				background: none;
+				padding: 0;
+			}
+			
+			.doc-content blockquote {
+				border-left: 4px solid var(--sm-yellow);
+				padding-left: 1rem;
+				margin-left: 0;
+				margin-right: 0;
+				opacity: 0.8;
+			}
+			
+			.doc-content img {
+				max-width: 100%;
+				height: auto;
+				border-radius: 8px;
+			}
+			
+			.doc-content table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 1.5rem 0;
+			}
+			
+			.doc-content th, 
+			.doc-content td {
+				padding: 0.75rem;
+				border: 1px solid rgba(255, 255, 255, 0.1);
+			}
+			
+			.doc-content th {
+				background: rgba(0, 0, 0, 0.2);
+			}
+			
+			.doc-content tr:nth-child(even) {
+				background: rgba(0, 0, 0, 0.1);
+			}
+		</style>
+	</body>
+</html>
