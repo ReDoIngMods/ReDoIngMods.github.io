@@ -2,9 +2,17 @@
 export interface Props {
 	title: string;
 	description?: string;
+    noLeftPadding?: boolean;
+    noRightPadding?: boolean;
 }
 
-const { title, description = "A Scrap Mechanic Modding Group" } = Astro.props;
+const { title, description = "A Scrap Mechanic Modding Group", noLeftPadding = false, noRightPadding = false } = Astro.props;
+
+const paddingModifiers = [
+    noLeftPadding ? 'no-left-padding' : '',
+    noRightPadding ? 'no-right-padding' : '',
+].join(' ');
+
 ---
 
 <!DOCTYPE html>
@@ -69,7 +77,7 @@ const { title, description = "A Scrap Mechanic Modding Group" } = Astro.props;
 			</nav>
 
 			<!-- Removed container and mx-auto classes -->
-			<main class="flex-grow py-8 relative z-10">
+            <main class={`flex-grow py-8 relative z-10 ${paddingModifiers}`}>
 				<slot />
 			</main>
 
@@ -79,26 +87,45 @@ const { title, description = "A Scrap Mechanic Modding Group" } = Astro.props;
                     padding-left: 2rem;
                     padding-right: 2rem;
                 }
-
+                
                 /* Don't change the order! */
-
+                
+                @media (min-width: 1366px) {
+                    body > div > main:not(.no-left-padding) {
+                        padding-left: 4rem !important;
+                    }
+              
+                    body > div > main:not(.no-right-padding) {
+                        padding-right: 4rem !important;
+                    }
+                }
+                
                 @media (min-width: 1600px) {
-                    body > div > main {
+                    body > div > main:not(.no-left-padding) {
                         padding-left: 6.5rem !important;
+                    }
+              
+                    body > div > main:not(.no-right-padding) {
                         padding-right: 6.5rem !important;
                     }
                 }
-
+                
                 @media (min-width: 1920px) {
-                    body > div > main {
+                    body > div > main:not(.no-left-padding) {
                         padding-left: 13rem !important;
+                    }
+              
+                    body > div > main:not(.no-right-padding) {
                         padding-right: 13rem !important;
                     }
                 }
-
+                
                 @media (min-width: 2560px) {
-                    body > div > main {
+                    body > div > main:not(.no-left-padding) {
                         padding-left: 26rem !important;
+                    }
+              
+                    body > div > main:not(.no-right-padding) {
                         padding-right: 26rem !important;
                     }
                 }
