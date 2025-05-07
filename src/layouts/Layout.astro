@@ -190,6 +190,31 @@ const paddingModifiers = [
 		               A 0.05,0.05 0 0 1 0.1,0 
 		               Z" />
 		    </clipPath>
+		    <mask id="sm-button-mask" maskContentUnits="objectBoundingBox">
+		      <rect width="1" height="1" fill="white"/> <!-- Main opaque shape -->
+		      
+		      <!-- Left Notches -->
+		      <!-- Notch 1 -->
+		      <rect x="0" y="0.305" width="0.035" height="0.1" fill="black"/>
+		      <rect x="0" y="0.305" width="0.035" height="0.015" fill="#cccccc"/> <!-- Shadow band for Notch 1 -->
+		      <!-- Notch 2 -->
+		      <rect x="0" y="0.450" width="0.035" height="0.1" fill="black"/>
+		      <rect x="0" y="0.450" width="0.035" height="0.015" fill="#cccccc"/> <!-- Shadow band for Notch 2 -->
+		      <!-- Notch 3 -->
+		      <rect x="0" y="0.595" width="0.035" height="0.1" fill="black"/>
+		      <rect x="0" y="0.595" width="0.035" height="0.015" fill="#cccccc"/> <!-- Shadow band for Notch 3 -->
+
+		      <!-- Right Notches -->
+		      <!-- Notch 1 -->
+		      <rect x="0.965" y="0.305" width="0.035" height="0.1" fill="black"/>
+		      <rect x="0.965" y="0.305" width="0.035" height="0.015" fill="#cccccc"/> <!-- Shadow band for Notch 1 -->
+		      <!-- Notch 2 -->
+		      <rect x="0.965" y="0.450" width="0.035" height="0.1" fill="black"/>
+		      <rect x="0.965" y="0.450" width="0.035" height="0.015" fill="#cccccc"/> <!-- Shadow band for Notch 2 -->
+		      <!-- Notch 3 -->
+		      <rect x="0.965" y="0.595" width="0.035" height="0.1" fill="black"/>
+		      <rect x="0.965" y="0.595" width="0.035" height="0.015" fill="#cccccc"/> <!-- Shadow band for Notch 3 -->
+		    </mask>
 		  </defs>
 		</svg>
 
@@ -461,7 +486,7 @@ const paddingModifiers = [
 				background: linear-gradient(to bottom, var(--sm-button-gradient-start) 0%, var(--sm-button-gradient-end) 100%);
 				color: var(--sm-text-black);
 				padding: 0.75rem 1rem;
-				border-radius: 12px;
+				border-radius: 12px; /* Keep this for overall button shape */
 				font-weight: bold;
 				transition: all 0.2s;
 				text-transform: uppercase;
@@ -474,17 +499,13 @@ const paddingModifiers = [
 				min-width: 180px;
 				position: relative;
 				cursor: pointer;
-				/* Removing the clip-path to allow for rounded corners */
-				/* clip-path: polygon(
-					0 0, 100% 0,
-					100% 30%, calc(100% - 4px) 30%, calc(100% - 4px) 37%, 100% 37%,
-					100% 45%, calc(100% - 4px) 45%, calc(100% - 4px) 52%, 100% 52%,
-					100% 60%, calc(100% - 4px) 60%, calc(100% - 4px) 67%, 100% 67%,
-					100% 100%, 0 100%,
-					0 67%, 4px 67%, 4px 60%, 0 60%,
-					0 52%, 4px 52%, 4px 45%, 0 45%,
-					0 37%, 4px 37%, 4px 30%, 0 30%
-				); */
+				 /* Apply the mask for cut-out notches */
+				-webkit-mask-image: url(#sm-button-mask);
+				mask-image: url(#sm-button-mask);
+				-webkit-mask-size: 100% 100%; /* Cover the entire button */
+				mask-size: 100% 100%;
+				-webkit-mask-repeat: no-repeat;
+				mask-repeat: no-repeat;
 			}
 
 			.sm-button.disabled {
