@@ -1,0 +1,366 @@
+---
+// Search.astro - Generic client-side fuzzy search component
+---
+
+<div class="search-container">
+  <div class="search-input-wrapper">
+    <input 
+      type="text" 
+      id={Astro.props.inputId || "page-search"} 
+      class="search-input" 
+      placeholder={Astro.props.placeholder || "Search..."} 
+      autocomplete="off"
+    />
+    <div class="search-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </div>
+    <button id={Astro.props.clearButtonId || "clear-search-button"} class="clear-button hidden">×</button>
+  </div>
+  <div id={Astro.props.resultsId || "search-results-container"} class="search-results hidden">
+    <div class="no-results hidden">No results found.</div>
+    <ul class="results-list"></ul>
+  </div>
+</div>
+
+<script>
+  // We'll load this dynamically for better performance
+  let fuse = null;
+  let searchData = null;
+  let searchInitialized = false;
+  let searchInitializing = false;
+  let searchError = null;
+  
+  const inputId = Astro.props.inputId || "page-search";
+  const clearButtonId = Astro.props.clearButtonId || "clear-search-button";
+  const resultsId = Astro.props.resultsId || "search-results-container";
+
+  const searchInput = document.getElementById(inputId);
+  const searchResultsContainer = document.getElementById(resultsId);
+  const resultsList = searchResultsContainer.querySelector('.results-list');
+  const noResults = searchResultsContainer.querySelector('.no-results');
+  const clearButton = document.getElementById(clearButtonId);
+  
+  // Lazy load Fuse.js when user focuses on search
+  searchInput.addEventListener('focus', async () => {
+    if (!fuse && !searchInitializing && !searchError) {
+      await initializeSearch();
+    }
+  });
+  
+  // Clear search when clicking the clear button
+  clearButton.addEventListener('click', () => {
+    searchInput.value = '';
+    hideResults();
+    clearButton.classList.add('hidden');
+  });
+  
+  // Handle input in search box
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.trim();
+    
+    if (query) {
+      clearButton.classList.remove('hidden');
+      
+      if (fuse) {
+        performSearch(query);
+      } else if (searchError) {
+        showSearchError();
+      } else if (!searchInitializing) {
+        initializeSearch().then(() => {
+          if (fuse) performSearch(query);
+        });
+      }
+    } else {
+      clearButton.classList.add('hidden');
+      hideResults();
+    }
+  });
+  
+  // Close search results when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-container')) {
+      hideResults();
+    }
+  });
+  
+  // Initialize search functionality
+  async function initializeSearch() {
+    if (searchInitialized || searchInitializing) return;
+    
+    searchInitializing = true;
+    
+    try {
+      const Fuse = (await import('fuse.js')).default;
+      const response = await fetch('/search-index.json');
+      
+      if (!response.ok) {
+        throw new Error(`Failed to load search index: ${response.status} ${response.statusText}`);
+      }
+      
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error(`Invalid content type: ${contentType}. Expected application/json`);
+      }
+      
+      searchData = await response.json();
+      
+      if (!Array.isArray(searchData)) {
+        throw new Error('Search data is not an array');
+      }
+      
+      fuse = new Fuse(searchData, {
+        keys: ['title', 'headings', 'content'],
+        includeMatches: true,
+        threshold: 0.3,
+        distance: 100,
+        useExtendedSearch: true,
+        ignoreLocation: true
+      });
+      
+      searchInitialized = true;
+      console.log('Search functionality initialized for:', inputId);
+    } catch (error) {
+      searchError = error;
+      console.error('Failed to initialize search for:', inputId, error);
+      
+      if (searchInput.value.trim()) {
+        showSearchError();
+      }
+    } finally {
+      searchInitializing = false;
+    }
+  }
+  
+  function showSearchError() {
+    resultsList.innerHTML = '';
+    noResults.textContent = 'Search is currently unavailable. Please try again later.';
+    noResults.classList.remove('hidden');
+    searchResultsContainer.classList.remove('hidden');
+  }
+  
+  function performSearch(query) {
+    if (!fuse) return;
+    
+    const results = fuse.search(query);
+    displayResults(results);
+  }
+  
+  function displayResults(results) {
+    resultsList.innerHTML = '';
+    
+    if (results.length === 0) {
+      noResults.textContent = 'No results found.';
+      noResults.classList.remove('hidden');
+      searchResultsContainer.classList.remove('hidden');
+      return;
+    }
+    
+    noResults.classList.add('hidden');
+    
+    results.slice(0, 8).forEach(result => {
+      const item = document.createElement('li');
+      const pageUrl = result.item.url; // Direct URL to the page
+      const pageTitle = result.item.title || 'Untitled';
+      
+      const link = document.createElement('a');
+      link.href = pageUrl;
+      link.classList.add('search-result-link');
+      
+      const resultLayout = document.createElement('div');
+      resultLayout.className = 'result-layout';
+      
+      const titleEl = document.createElement('div');
+      titleEl.className = 'result-title';
+      titleEl.textContent = pageTitle;
+      resultLayout.appendChild(titleEl);
+
+      // Attempt to create a context snippet
+      let snippetText = '';
+      if (result.matches && result.item.content) {
+        const contentMatch = result.matches.find(m => m.key === 'content' && m.indices && m.indices.length > 0);
+        if (contentMatch) {
+          const firstMatchIndices = contentMatch.indices[0];
+          const snippetStart = Math.max(0, firstMatchIndices[0] - 30);
+          const snippetEnd = Math.min(result.item.content.length, firstMatchIndices[1] + 31);
+          
+          snippetText = result.item.content.substring(snippetStart, snippetEnd);
+          if (snippetStart > 0) snippetText = '...' + snippetText;
+          if (snippetEnd < result.item.content.length) snippetText = snippetText + '...';
+        }
+      }
+
+      if (snippetText) {
+        const snippetEl = document.createElement('div');
+        snippetEl.className = 'result-snippet';
+        snippetEl.textContent = snippetText;
+        resultLayout.appendChild(snippetEl);
+      }
+      
+      link.appendChild(resultLayout);
+      item.appendChild(link);
+      resultsList.appendChild(item);
+    });
+    
+    searchResultsContainer.classList.remove('hidden');
+  }
+  
+  function hideResults() {
+    searchResultsContainer.classList.add('hidden');
+    noResults.classList.add('hidden');
+  }
+</script>
+
+<style>
+  .search-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1.25rem; /* Consistent with DocLayout */
+  }
+  
+  .search-input-wrapper {
+    position: relative;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--sm-yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 0 12px 0 12px; /* Consistent styling */
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+  }
+  
+  .search-input:focus {
+    outline: none;
+    border-color: var(--sm-yellow);
+    box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.2);
+  }
+  
+  .search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+  }
+  
+  .clear-button {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+  
+  .clear-button:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .search-results {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    background-color: var(--sm-ui-color);
+    border-radius: 0 12px 0 12px; /* Consistent styling */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 10;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    color: white;
+  }
+  
+  .results-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .results-list li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .results-list li:last-child {
+    border-bottom: none;
+  }
+  
+  .search-result-link {
+    display: block;
+    padding: 0.75rem;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.2s ease;
+  }
+  
+  .search-result-link:hover {
+    background-color: rgba(255, 215, 0, 0.1);
+    color: white;
+  }
+  
+  .result-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .result-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--sm-yellow);
+  }
+  
+  .result-section { /* This class is no longer used, but kept for now to avoid breaking other things if referenced elsewhere by mistake */
+    font-size: 0.9rem;
+    color: white;
+    opacity: 0.8;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    width: fit-content;
+  }
+
+  .result-snippet {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.25rem;
+    line-height: 1.4;
+  }
+  
+  .no-results {
+    padding: 1rem;
+    text-align: center;
+    color: white;
+    font-style: italic;
+  }
+  
+  .hidden {
+    display: none;
+  }
+</style>

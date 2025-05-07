@@ -1,0 +1,137 @@
+---
+import Layout from './Layout.astro';
+import Search from '../components/Search.astro'; // Updated to generic Search component
+
+export interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<Layout noLeftPadding={true} noRightPadding={true} title={title} description={description}>
+	<div class="flex flex-col md:flex-row gap-8">
+		<aside class="w-full md:w-64 flex-shrink-0">
+			<div class="bg-sm-ui p-4 rounded-tr-[24px] rounded-bl-[24px] sticky top-8 wiki-sidebar">
+				<h3 class="text-white text-xl mb-4 site-title">Wiki Navigation</h3>
+				
+				<Search inputId="wiki-search-input" clearButtonId="wiki-clear-button" resultsId="wiki-results-container" placeholder="Search wiki..." />
+
+				<nav class="wiki-nav">
+					<ul class="space-y-2">
+						<li><a href="/wiki" class:list={[ "text-white hover:text-sm-yellow", { "text-sm-yellow font-bold": currentPath === "/wiki" || currentPath === "/wiki/" } ]}>Wiki Home</a></li>
+						<li><a href="/wiki/random-mygui-facts" class:list={[ "text-white hover:text-sm-yellow", { "text-sm-yellow font-bold": currentPath === "/wiki/random-mygui-facts" } ]}>Random MyGUI Facts</a></li>
+						<!-- Add more top-level wiki links or categories here -->
+					</ul>
+				</nav>
+			</div>
+		</aside>
+
+		<div class="flex-grow">
+			<article class="wiki-content bg-slate-800 p-6 shadow-lg rounded-lg">
+				<div class="flex justify-between items-center mb-4">
+					<h1 class="text-3xl text-sm-yellow font-bold site-title">{title}</h1>
+					<a href={`https://github.com/ReDoIngMods/ReDoIngMods.github.io/edit/main/src/pages${currentPath}.mdx`} target="_blank" class="text-sm text-slate-400 hover:text-sm-yellow">Edit this page</a>
+				</div>
+				<slot />
+			</article>
+		</div>
+	</div>
+</Layout>
+
+<style>
+	.wiki-nav a {
+		display: block;
+		padding: 0.25rem 0;
+		transition: color 0.2s ease;
+	}
+
+	.wiki-content {
+		/* Basic styling for wiki content area */
+		color: var(--sm-text-white);
+		border: 1px solid var(--sm-grid-line);
+	}
+
+	.wiki-content h1, 
+	.wiki-content h2, 
+	.wiki-content h3,
+	.wiki-content h4,
+	.wiki-content h5 {
+		color: var(--sm-yellow);
+		margin-top: 1.5rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.wiki-content h1:first-child {
+		margin-top: 0;
+	}
+
+	.wiki-content a {
+		color: var(--sm-yellow);
+		text-decoration: underline;
+		text-decoration-style: dotted;
+	}
+
+	.wiki-content a:hover {
+		text-decoration-style: solid;
+	}
+
+	.wiki-content code {
+		background: rgba(0, 0, 0, 0.4);
+		padding: 0.2rem 0.4rem;
+		border-radius: 4px;
+		font-family: monospace;
+	}
+
+	.wiki-content pre {
+		background: rgba(0, 0, 0, 0.4);
+		padding: 1rem;
+		border-radius: 8px;
+		overflow-x: auto;
+		margin: 1rem 0;
+	}
+
+	.wiki-content pre code {
+		background: none;
+		padding: 0;
+	}
+
+	.wiki-content blockquote {
+		border-left: 4px solid var(--sm-yellow);
+		padding-left: 1rem;
+		margin-left: 0;
+		margin-right: 0;
+		opacity: 0.9;
+		background-color: rgba(0,0,0,0.1);
+	}
+
+	.wiki-content img {
+		max-width: 100%;
+		height: auto;
+		border-radius: 8px;
+		margin-top: 0.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.wiki-content table {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 1.5rem 0;
+	}
+
+	.wiki-content th, 
+	.wiki-content td {
+		padding: 0.75rem;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+	}
+
+	.wiki-content th {
+		background: rgba(0, 0, 0, 0.3);
+	}
+
+	.wiki-content tr:nth-child(even) {
+		background: rgba(0, 0, 0, 0.15);
+	}
+</style>

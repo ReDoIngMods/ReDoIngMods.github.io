@@ -29,5 +29,24 @@
       "Contributing to This Documentation"
     ],
     "content": "Scrap Mechanic Modding Documentation\n\nWelcome to the official ReDoIng Mods documentation. This guide will help you get started with modding Scrap Mechanic and creating amazing content for the game.\n\nWhat is Scrap Mechanic?\n\nScrap Mechanic is a creative multiplayer sandbox game that allows players to build vehicles, structures, and contraptions using a variety of parts and blocks. The game features a robust physics system and offers plenty of opportunities for creative expression through modding.\n\nWhy Mod Scrap Mechanic?\n\nModding Scrap Mechanic allows you to:\n\nAdd new items, blocks, and parts to the game\n\nCreate custom gameplay mechanics\n\nEnhance the existing game features\n\nShare your creations with the community\n\nCollaborate with other modders\n\nGetting Started\n\nIf you're new to modding Scrap Mechanic, we recommend starting with our Getting Started guide, which covers the basic tools and concepts you'll need to know.\n\nCommunity Resources\n\nThe Scrap Mechanic modding community is active and helpful. Here are some resources you might find useful:\n\nScrap Mechanic Workshop\n\nScrap Mechanic Modding Wiki\n\n3rd party modding wiki\n\nContributing to This Documentation\n\nWe welcome contributions to this documentation! If you find errors, have suggestions for improvements, or want to add new content, please visit our GitHub repository and submit a pull request."
+  },
+  {
+    "title": "Wiki Home",
+    "url": "/wiki",
+    "headings": [
+      "ReDoIng Mods Wiki",
+      "Browse Topics"
+    ],
+    "content": "ReDoIng Mods Wiki\n\nWelcome to the community-driven wiki! Find useful information, tips, and tricks here.\n\nBrowse Topics\n\nRandom MyGUI Facts"
+  },
+  {
+    "title": "Random MyGUI Facts",
+    "url": "/wiki/random-mygui-facts",
+    "headings": [
+      "Random MyGUI Facts",
+      "Fact 1: Something Interesting",
+      "Tip 2: A Useful Technique"
+    ],
+    "content": "Random MyGUI Facts\n\nThis page contains a collection of useful (and sometimes obscure) facts, tips, and tricks related to MyGUI for Scrap Mechanic modding.\n\nFact 1: Something Interesting\n\nDetails about the first interesting MyGUI fact.\n\nTip 2: A Useful Technique\n\nHow to do something useful with MyGUI.\n\n(Feel free to add more facts and tips!)"
   }
 ]

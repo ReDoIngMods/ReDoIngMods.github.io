@@ -14,12 +14,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Define paths
 const docsDir = path.join(__dirname, '..', 'src', 'pages', 'docs');
+const wikiDir = path.join(__dirname, '..', 'src', 'pages', 'wiki'); // Added wiki directory
 const outputDir = path.join(__dirname, '..', 'public');
 const outputFile = path.join(outputDir, 'search-index.json');
 
 // Debug path resolution
 console.log(`Looking for docs in: ${docsDir}`);
+console.log(`Looking for wiki in: ${wikiDir}`); // Added debug log for wiki directory
 console.log(`Directory exists: ${fs.existsSync(docsDir)}`);
+console.log(`Wiki directory exists: ${fs.existsSync(wikiDir)}`); // Added debug log for wiki directory existence
 
 // Ensure output directory exists
 if (!fs.existsSync(outputDir)) {
@@ -71,12 +74,14 @@ function findMdxFiles(directory) {
 // Main function to generate search index
 async function generateSearchIndex() {
   try {
-    console.log('Generating search index for documentation...');
+    console.log('Generating search index for documentation and wiki...'); // Updated log
     
-    // Find all markdown files in the docs directory using custom function instead of glob
-    console.log('Searching for MDX files...');
-    const files = findMdxFiles(docsDir);
-    console.log(`Found ${files.length} MDX files`);
+    // Find all markdown files in the docs and wiki directories
+    console.log('Searching for MDX files in docs and wiki...'); // Updated log
+    const docFiles = findMdxFiles(docsDir);
+    const wikiFiles = findMdxFiles(wikiDir); // Get wiki files
+    const files = [...docFiles, ...wikiFiles]; // Combine file lists
+    console.log(`Found ${files.length} MDX files in total.`); // Updated log
     
     if (files.length === 0) {
       console.log('Warning: No MDX files found. The search index will be empty.');
@@ -98,13 +103,27 @@ async function generateSearchIndex() {
       const plainText = (await markdownToPlainText(markdownContent)).trim();
       
       // Generate URL path from file path
-      const relativePath = path.relative(docsDir, file)
+      let relativePath;
+      let section;
+
+      if (file.startsWith(docsDir)) {
+        relativePath = path.relative(docsDir, file);
+        section = 'docs';
+      } else if (file.startsWith(wikiDir)) {
+        relativePath = path.relative(wikiDir, file);
+        section = 'wiki';
+      } else {
+        console.warn(`File ${file} is not in docsDir or wikiDir, skipping URL generation.`);
+        return null; // Or handle as an error
+      }
+      
+      const urlPath = relativePath
         .replace(/\\/g, '/')
         .replace(/\.mdx?$/, '');
       
-      const url = relativePath === 'index' ? '/docs' : `/docs/${relativePath}`;
+      const url = urlPath === 'index' ? `/${section}` : `/${section}/${urlPath}`;
       
-      console.log(`Generated URL: ${url}`);
+      console.log(`Generated URL: ${url} for section: ${section}`);
       
       // Return structured data for search
       return {
@@ -116,10 +135,12 @@ async function generateSearchIndex() {
     }));
     
     // Write search index to file
-    fs.writeFileSync(outputFile, JSON.stringify(searchData, null, 2));
+    // Filter out any null results from files not in specified directories
+    const validSearchData = searchData.filter(item => item !== null);
+    fs.writeFileSync(outputFile, JSON.stringify(validSearchData, null, 2));
     
     console.log(`Search index generated at ${outputFile}`);
-    console.log(`Indexed ${searchData.length} documentation pages`);
+    console.log(`Indexed ${validSearchData.length} pages from docs and wiki`); // Updated log
   } catch (error) {
     console.error('Error generating search index:', error);
     console.error(error.stack);

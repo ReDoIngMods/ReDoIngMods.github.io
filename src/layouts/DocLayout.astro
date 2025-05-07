@@ -1,6 +1,6 @@
 ---
 import Layout from './Layout.astro';
-import SearchDocs from '../components/SearchDocs.astro';
+import Search from '../components/Search.astro'; // Updated to generic Search component
 
 export interface Props {
 	title: string;
@@ -16,8 +16,7 @@ const { title, description } = Astro.props;
 			<div class="bg-sm-ui p-4 rounded-tr-[24px] rounded-bl-[24px] sticky top-8">
 				<h3 class="text-white text-xl mb-4 site-title">Documentation</h3>
 				
-				<!-- Add the search component -->
-				<SearchDocs />
+				<Search inputId="doc-search-input" clearButtonId="doc-clear-button" resultsId="doc-results-container" placeholder="Search documentation..." />
 				
 				<nav class="docs-nav">
 					<ul class="space-y-2">
