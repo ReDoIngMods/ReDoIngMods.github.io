@@ -11,7 +11,7 @@ export default {
         'sm-button-end': '#ff8200',
       },
       fontFamily: {
-        'sovjet': ['"Sovjet Box"', 'sans-serif'],
+        'sovjet': ['"Shentox"', 'sans-serif'],
       },
     },
   },
