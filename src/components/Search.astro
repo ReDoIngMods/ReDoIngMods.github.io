@@ -331,7 +331,7 @@
   }
   
   .search-result-link * {
-    color: inherit;
+    color: inherit !important;
   }
   
   .search-result-link:hover {
@@ -347,7 +347,13 @@
   }
   
   .result-layout * {
-    color: inherit;
+    color: inherit !important;
+  }
+  
+  /* Ensure all text elements within search results are white */
+  .search-result-link,
+  .search-result-link *:not(mark) {
+    color: white !important;
   }
   
   .result-title {

@@ -580,7 +580,7 @@ const {
   }
   
   .search-result-link * {
-    color: inherit;
+    color: inherit !important;
   }
   
   .search-result-link:hover {
@@ -597,7 +597,13 @@ const {
   }
   
   .result-content * {
-    color: inherit;
+    color: inherit !important;
+  }
+  
+  /* Ensure all text elements within search results are white */
+  .search-result-link,
+  .search-result-link *:not(mark) {
+    color: white !important;
   }
   
   .result-title {
@@ -628,7 +634,7 @@ const {
   .result-snippet mark,
   .result-title mark {
     background-color: var(--sm-yellow);
-    color: black;
+    color: #1a1a1a !important;
     padding: 0.125rem 0.25rem;
     border-radius: 3px;
     font-weight: 600;
