@@ -1,6 +1,6 @@
 ---
 import Layout from './Layout.astro';
-import Search from '../components/Search.astro'; // Updated to generic Search component
+import ImprovedSearch from '../components/ImprovedSearch.astro'; // Updated to use ImprovedSearch
 
 export interface Props {
 	title: string;
@@ -16,7 +16,12 @@ const { title, description } = Astro.props;
 			<div class="bg-sm-ui p-4 rounded-tr-[24px] rounded-bl-[24px] sticky top-8">
 				<h3 class="text-white text-xl mb-4 site-title">Documentation</h3>
 				
-				<Search inputId="doc-search-input" clearButtonId="doc-clear-button" resultsId="doc-results-container" placeholder="Search documentation..." />
+				<ImprovedSearch 
+					inputId="doc-search-input" 
+					clearButtonId="doc-clear-button" 
+					resultsId="doc-results-container" 
+					placeholder="Search documentation..." 
+				/>
 				
 				<nav class="docs-nav">
 					<ul class="space-y-2">
@@ -125,6 +130,100 @@ const { title, description } = Astro.props;
 	.modal-close {
 		border-radius: 12px !important;
 	}
+	
+	/* Search highlighting styles */
+	.search-highlight {
+		background-color: var(--sm-yellow);
+		color: black;
+		padding: 0.125rem 0.25rem;
+		border-radius: 3px;
+		font-weight: 600;
+	}
+	
+	@keyframes search-highlight-pulse {
+		0%, 100% { 
+			background-color: var(--sm-yellow);
+			transform: scale(1);
+		}
+		50% { 
+			background-color: rgba(255, 215, 0, 0.8);
+			transform: scale(1.05);
+		}
+	}
+	
+	/* Search notification styles */
+	.search-notification {
+		position: fixed;
+		top: 2rem;
+		right: 2rem;
+		z-index: 1000;
+		background: linear-gradient(135deg, var(--sm-ui-color) 0%, rgba(45, 45, 45, 0.95) 100%);
+		border: 1px solid var(--sm-yellow);
+		border-radius: 0 12px 0 12px;
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+		backdrop-filter: blur(10px);
+		animation: slideInRight 0.3s ease-out;
+	}
+	
+	@keyframes slideInRight {
+		from {
+			transform: translateX(100%);
+			opacity: 0;
+		}
+		to {
+			transform: translateX(0);
+			opacity: 1;
+		}
+	}
+	
+	.notification-content {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 1rem 1.25rem;
+		color: white;
+	}
+	
+	.notification-icon {
+		font-size: 1.25rem;
+	}
+	
+	.notification-text {
+		flex: 1;
+		font-size: 0.9rem;
+	}
+	
+	.notification-close {
+		background: none;
+		border: none;
+		color: rgba(255, 255, 255, 0.7);
+		cursor: pointer;
+		font-size: 1.25rem;
+		padding: 0.25rem;
+		border-radius: 50%;
+		transition: all 0.2s ease;
+	}
+	
+	.notification-close:hover {
+		color: white;
+		background-color: rgba(255, 255, 255, 0.1);
+	}
+	
+	@media (max-width: 768px) {
+		.search-notification {
+			top: 1rem;
+			right: 1rem;
+			left: 1rem;
+		}
+		
+		.notification-content {
+			padding: 0.75rem 1rem;
+		}
+		
+		.notification-text {
+			font-size: 0.85rem;
+		}
+	}
 </style>
 
 <script>
@@ -199,5 +298,106 @@ const { title, description } = Astro.props;
 				heading.style.position = 'relative';
 			});
 		}
+		
+		// Handle search highlighting from search results
+		handleSearchHighlighting();
 	});
+	
+	// Function to highlight search terms when coming from search results
+	function handleSearchHighlighting() {
+		const shouldHighlight = sessionStorage.getItem('searchHighlight');
+		const searchQuery = sessionStorage.getItem('searchQuery');
+		
+		if (shouldHighlight === 'true' && searchQuery) {
+			// Clear the session storage
+			sessionStorage.removeItem('searchHighlight');
+			sessionStorage.removeItem('searchQuery');
+			
+			// Highlight search terms in the content
+			highlightSearchTerms(searchQuery);
+			
+			// Show a subtle notification
+			showSearchNotification(searchQuery);
+		}
+	}
+	
+	function highlightSearchTerms(query) {
+		const contentArea = document.querySelector('.doc-content') || document.querySelector('article');
+		if (!contentArea || !query) return;
+		
+		const words = query.toLowerCase().split(/\s+/).filter(w => w.length > 1);
+		if (words.length === 0) return;
+		
+		// Create a regex pattern for all search terms
+		const pattern = words.map(word => escapeRegExp(word)).join('|');
+		const regex = new RegExp(`\\b(${pattern})\\b`, 'gi');
+		
+		// Function to highlight text in text nodes
+		function highlightInTextNode(node) {
+			if (node.nodeType === Node.TEXT_NODE) {
+				const text = node.textContent;
+				if (regex.test(text)) {
+					const highlightedText = text.replace(regex, '<mark class="search-highlight">$1</mark>');
+					const tempDiv = document.createElement('div');
+					tempDiv.innerHTML = highlightedText;
+					
+					// Replace the text node with highlighted content
+					const fragment = document.createDocumentFragment();
+					while (tempDiv.firstChild) {
+						fragment.appendChild(tempDiv.firstChild);
+					}
+					node.parentNode.replaceChild(fragment, node);
+				}
+			} else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE') {
+				// Recursively process child nodes
+				const children = Array.from(node.childNodes);
+				children.forEach(child => highlightInTextNode(child));
+			}
+		}
+		
+		highlightInTextNode(contentArea);
+		
+		// Scroll to the first highlight after a delay
+		setTimeout(() => {
+			const firstHighlight = contentArea.querySelector('.search-highlight');
+			if (firstHighlight) {
+				firstHighlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
+				// Add a pulse animation to draw attention
+				firstHighlight.style.animation = 'search-highlight-pulse 2s ease-out';
+			}
+		}, 500);
+	}
+	
+	function showSearchNotification(query) {
+		// Create notification element
+		const notification = document.createElement('div');
+		notification.className = 'search-notification';
+		notification.innerHTML = `
+			<div class="notification-content">
+				<span class="notification-icon">🔍</span>
+				<span class="notification-text">Highlighting results for "<strong>${escapeHtml(query)}</strong>"</span>
+				<button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+			</div>
+		`;
+		
+		// Add to page
+		document.body.appendChild(notification);
+		
+		// Auto-remove after 5 seconds
+		setTimeout(() => {
+			if (notification.parentElement) {
+				notification.remove();
+			}
+		}, 5000);
+	}
+	
+	function escapeRegExp(string) {
+		return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	}
+	
+	function escapeHtml(text) {
+		const div = document.createElement('div');
+		div.textContent = text;
+		return div.innerHTML;
+	}
 </script>
