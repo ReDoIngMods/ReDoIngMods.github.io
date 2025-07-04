@@ -25,25 +25,35 @@
   </div>
 </div>
 
-<script>
-  // We'll load this dynamically for better performance
+<script type="module" define:vars={{ inputId: Astro.props.inputId || "page-search", clearButtonId: Astro.props.clearButtonId || "clear-search-button", resultsId: Astro.props.resultsId || "search-results-container" }}>
+  import Fuse from 'fuse.js';
+  
+  // Search state
   let fuse = null;
   let searchData = null;
   let searchInitialized = false;
   let searchInitializing = false;
   let searchError = null;
-  
-  const inputId = Astro.props.inputId || "page-search";
-  const clearButtonId = Astro.props.clearButtonId || "clear-search-button";
-  const resultsId = Astro.props.resultsId || "search-results-container";
 
   const searchInput = document.getElementById(inputId);
   const searchResultsContainer = document.getElementById(resultsId);
-  const resultsList = searchResultsContainer.querySelector('.results-list');
-  const noResults = searchResultsContainer.querySelector('.no-results');
+  const resultsList = searchResultsContainer?.querySelector('.results-list');
+  const noResults = searchResultsContainer?.querySelector('.no-results');
   const clearButton = document.getElementById(clearButtonId);
-  
-  // Lazy load Fuse.js when user focuses on search
+
+  // Check if all required elements exist
+  if (!searchInput || !searchResultsContainer || !resultsList || !noResults || !clearButton) {
+    console.error('Search component: Required elements not found', {
+      searchInput: !!searchInput,
+      searchResultsContainer: !!searchResultsContainer,
+      resultsList: !!resultsList,
+      noResults: !!noResults,
+      clearButton: !!clearButton
+    });
+    return;
+  }
+
+  // Lazy load search data when user focuses on search
   searchInput.addEventListener('focus', async () => {
     if (!fuse && !searchInitializing && !searchError) {
       await initializeSearch();
@@ -93,7 +103,7 @@
     searchInitializing = true;
     
     try {
-      const Fuse = (await import('fuse.js')).default;
+      // Fetch the search index
       const response = await fetch('/search-index.json');
       
       if (!response.ok) {
@@ -111,6 +121,7 @@
         throw new Error('Search data is not an array');
       }
       
+      // Create a new Fuse instance with appropriate options
       fuse = new Fuse(searchData, {
         keys: ['title', 'headings', 'content'],
         includeMatches: true,
