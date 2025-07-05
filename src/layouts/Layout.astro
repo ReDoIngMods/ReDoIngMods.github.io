@@ -66,7 +66,7 @@ const paddingModifiers = [
 
 			<nav class="sm-nav py-4 relative z-10">
 				<div class="container mx-auto px-4">
-					<ul class="flex flex-wrap justify-center space-x-8 md:space-x-12">
+					<ul class="flex flex-wrap justify-center gap-2 sm:gap-4 md:gap-8">
 						<li><a href="/" class="sm-nav-link">Home</a></li>
 						<li><a href="/mods" class="sm-nav-link">Our Mods</a></li>
 						<li><a href="/docs" class="sm-nav-link">Documentation</a></li>
@@ -173,6 +173,24 @@ const paddingModifiers = [
 				if (event.target === modal) {
 					modal!.style.display = 'none';
 				}
+			});
+
+			// Navigation active state highlighting
+			document.addEventListener('DOMContentLoaded', () => {
+				const currentPath = window.location.pathname;
+				const navLinks = document.querySelectorAll('.sm-nav-link');
+				
+				navLinks.forEach(link => {
+					const href = link.getAttribute('href');
+					
+					// Check if current path matches the link href
+					// Handle exact matches and parent path matches
+					if (href === currentPath || 
+						(currentPath.startsWith(href + '/') && href !== '/') ||
+						(href === '/' && currentPath === '/')) {
+						link.classList.add('active');
+					}
+				});
 			});
 		</script>
 
@@ -580,8 +598,8 @@ const paddingModifiers = [
 			.sm-nav-link {
 				color: var(--sm-text-white);
 				position: relative;
-				/* Adjust padding for symmetrical trapezium shape */
-				padding: 0.75rem 2rem; 
+				/* Responsive padding - smaller on mobile */
+				padding: 0.5rem 1rem; 
 				transition: all 0.2s;
 				/* Set background to the lighter color */
 				background-color: #3a4145; /* #2e3539 */
@@ -592,10 +610,27 @@ const paddingModifiers = [
 				/* border-top-right-radius: 8px; */
 				text-transform: uppercase;
 				font-weight: bold;
-				font-size: 0.9rem;
+				font-size: 0.8rem;
 				margin: 0; 
 				border-top: 2px solid #555e63; /* Subtle top border */
 				text-decoration: none; /* Remove default underline */
+				display: inline-block;
+				white-space: nowrap;
+			}
+
+			/* Larger screens get more padding */
+			@media (min-width: 640px) {
+				.sm-nav-link {
+					padding: 0.75rem 1.5rem;
+					font-size: 0.85rem;
+				}
+			}
+
+			@media (min-width: 768px) {
+				.sm-nav-link {
+					padding: 0.75rem 2rem;
+					font-size: 0.9rem;
+				}
 			}
 
 			.sm-nav-link:hover {
